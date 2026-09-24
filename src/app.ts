@@ -1,10 +1,14 @@
 import express from 'express';
-const App = express();
+import { type Request, type Response } from 'express';
 
-App.get('/', (req, res) => {
+const app = express();
+
+app.use(express.static('public'));
+
+app.get('/', (req: Request, res: Response) => {
 
     // Insert HTML here
     res.send('Project is running');
 })
 
-export default App;
+export default app;
