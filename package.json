@@ -12,6 +12,8 @@
   "license": "ISC",
   "description": "",
   "dependencies": {
+    "dot-env": "^0.0.1",
+    "dotenv": "^18.0.3",
     "express": "^5.2.1"
   },
   "devDependencies": {
