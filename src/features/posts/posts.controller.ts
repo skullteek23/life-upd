@@ -4,7 +4,7 @@ import {
 } from './posts.service';
 
 export function handleGet(req: Request, res: Response) {
-    const authID = Number(req.headers['x-user-id'])
+    const authID = getClientUserId(req);
     if (Number(req.query.pvt) === 1) {
         return handlePrivate(req, res, authID);
     } else {
@@ -13,7 +13,7 @@ export function handleGet(req: Request, res: Response) {
 }
 
 export async function handleCreate(req: Request, res: Response) {
-    const postOwnerId = Number(req.headers['x-user-id']);
+    const postOwnerId = getClientUserId(req);
     if (await uploadPost(req.body, postOwnerId)) {
         res.send('Post added!')
     } else {
@@ -37,4 +37,8 @@ async function handlePrivate(req: Request, res: Response, userId: number) {
     } else {
         res.status(400).send('Invalid Params!');
     }
+}
+
+function getClientUserId(req: Request): number {
+    return Number(req.headers['x-user-id']);
 }
