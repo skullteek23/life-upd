@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="assets/css/main.css" />
+    <title>Life Updates</title>
+  </head>
+  <body>
+    <header>
+      <span class="main-header-title">Life Updates</span>
+      <button class="primary-btn action-btn" id="action-btn"></button>
+    </header>
+    <section class="feed">
+      <ul id="posts"></ul>
+    </section>
+
+    <!-- Templates -->
+    <template id="post-template">
+      <article class="card">
+        <div class="card-title">
+          <span class="username"></span>
+          <span class="dot">•</span>
+          <span class="date-posted"></span>
+          <span class="visibility-icon"></span>
+          <span class="category-icon"></span>
+        </div>
+        <img class="card-image" />
+        <div class="card-content"></div>
+      </article>
+    </template>
+
+    <template id="input-template">
+      <form id="input-form">
+        <article class="card">
+          <!-- Category -->
+          <div class="card-title">What kind of update is it?</div>
+          <input type="hidden" name="category" id="category" />
+          <div class="card-title-action"></div>
+          <!-- Category -->
+
+          <div class="card-content">
+            <!-- Photo -->
+            <input type="hidden" name="photo" id="photo" />
+            <img class="card-image" hidden />
+            <!-- Photo -->
+
+            <!-- Caption -->
+            <textarea name="caption" placeholder="Add a caption..." cols="33" rows="3" id="caption"></textarea>
+            <!-- Caption -->
+          </div>
+
+          <footer>
+            <div class="footer-title">Visible to:</div>
+            <select name="visibility" class="visibility-selection"></select>
+          </footer>
+        </article>
+      </form>
+    </template>
+
+    <template id="card-title-action-template">
+      <div class="action-element">
+        <img class="action-element-img" />
+        <span class="action-element-text"></span>
+      </div>
+    </template>
+
+    <template id="auth-template">
+      <form id="auth-form">
+        <article class="card">
+          <div class="card-title"></div>
+          <div class="card-content">
+            <div class="input-field">
+              <input type="text" name="username" id="username" />
+            </div>
+            <div class="input-field">
+              <input type="password" name="password" id="password" />
+            </div>
+          </div>
+          <footer>
+            <div class="footer-subtitle"></div>
+          </footer>
+        </article>
+      </form>
+    </template>
+
+    <script src="/assets/js/index.js" type="module"></script>
+  </body>
+</html>
