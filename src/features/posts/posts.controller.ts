@@ -5,7 +5,7 @@ import {
 
 export function handleGet(req: Request, res: Response) {
     const authID = getClientUserId(req);
-    if (Number(req.query.pvt) === 1) {
+    if (Number(req.query.pvt) === 1 && authID) {
         return handlePrivate(req, res, authID);
     } else {
         return handleAll(req, res);
@@ -29,7 +29,7 @@ async function handleAll(req: Request, res: Response) {
 }
 
 async function handlePrivate(req: Request, res: Response, userId: number) {
-    if (req.params.userId && !isNaN(userId)) {
+    if (userId && !isNaN(userId)) {
         const result = await getPostsByUser(userId);
         result.length ?
             res.json(result) :

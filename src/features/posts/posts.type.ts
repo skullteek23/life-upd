@@ -4,6 +4,7 @@ export interface IPost {
     caption: string,
     created_at: number,
     category: Category,
+    is_pvt: number,
     id: number
 }
 export interface IQuery {

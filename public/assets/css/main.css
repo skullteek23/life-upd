@@ -1,0 +1,210 @@
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap");
+* {
+  font-family: "Open Sans", sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+body .primary-btn {
+  height: 36px;
+  padding: 8px;
+  background-color: #e3edff;
+  color: #176bff;
+  text-align: center;
+  border: 0px solid rgb(232, 213, 213);
+  border-radius: 8px;
+  box-sizing: border-box;
+}
+body .primary-btn:hover {
+  cursor: pointer;
+  border: rgba(23, 107, 255, 0.2078431373) 1px solid;
+}
+
+header {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0 16px;
+  height: 56px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+}
+@media screen and (max-width: 230px) {
+  header {
+    flex-direction: column;
+    flex-direction: column;
+    padding: 7px 16px;
+    height: auto;
+  }
+}
+header .main-header-title {
+  width: 100%;
+  display: inline-block;
+  margin: auto;
+  font-size: 20px;
+  font-family: Open Sans;
+}
+header .action-btn {
+  width: 100px;
+  margin-left: auto;
+}
+
+.feed #posts {
+  max-width: 350px;
+  margin: auto;
+  margin-top: 6px;
+  padding-inline-start: 0;
+}
+.feed #posts li {
+  list-style: none;
+  margin-bottom: 4px;
+  max-width: 100%;
+}
+@media screen and (min-width: 351px) {
+  .feed #posts li {
+    margin-bottom: 16px;
+  }
+}
+.feed #posts li .card {
+  overflow: hidden;
+  width: 100%;
+  border-radius: 8px;
+}
+@media screen and (min-width: 351px) {
+  .feed #posts li .card {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+  }
+}
+.feed #posts li .card footer {
+  display: flex;
+  padding: 0 12px 12px 0;
+}
+.feed #posts li .card footer .footer-subtitle {
+  font-size: 11px;
+  padding: 0 12px;
+}
+.feed #posts li .card .card-title,
+.feed #posts li .card .footer-title {
+  font-size: 13px;
+  padding: 0 12px;
+  margin: 8px 0;
+  display: flex;
+  gap: 4px;
+  justify-content: flex-start;
+}
+.feed #posts li .card .card-title .username,
+.feed #posts li .card .footer-title .username {
+  font-weight: 600;
+}
+.feed #posts li .card .card-title .dot,
+.feed #posts li .card .card-title .date-posted,
+.feed #posts li .card .footer-title .dot,
+.feed #posts li .card .footer-title .date-posted {
+  color: #6a717a;
+}
+.feed #posts li .card .card-title .visibility-icon,
+.feed #posts li .card .footer-title .visibility-icon {
+  margin-left: auto;
+}
+.feed #posts li .card .card-title .visibility-icon,
+.feed #posts li .card .card-title .category-icon,
+.feed #posts li .card .footer-title .visibility-icon,
+.feed #posts li .card .footer-title .category-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 16px;
+  width: 16px;
+  min-height: 16px;
+  min-width: 16px;
+}
+.feed #posts li .card .card-title .visibility-icon img,
+.feed #posts li .card .card-title .category-icon img,
+.feed #posts li .card .footer-title .visibility-icon img,
+.feed #posts li .card .footer-title .category-icon img {
+  height: 16px;
+  width: 16px;
+  min-height: 16px;
+  min-width: 16px;
+}
+.feed #posts li .card .card-title-action {
+  padding: 0 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  overflow-x: auto;
+}
+.feed #posts li .card textarea {
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  background: #F0F0F0;
+  margin: 8px 0 0;
+  width: stretch;
+}
+.feed #posts li .card .action-element {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  opacity: 0.2;
+}
+.feed #posts li .card .action-element:hover {
+  opacity: 0.3;
+}
+.feed #posts li .card .action-element.selected {
+  opacity: 1;
+}
+.feed #posts li .card .action-element-text {
+  font-size: 10px;
+  width: 50px;
+  text-align: center;
+}
+.feed #posts li .card .action-element-img {
+  height: 32px;
+  width: 32px;
+  background-color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.feed #posts li .card-content {
+  padding: 0 12px;
+  margin: 4px 0 8px;
+  font-weight: 400;
+  font-size: 15px;
+}
+.feed #posts li img {
+  max-width: 100%;
+  height: auto;
+}
+
+input,
+textarea {
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  background: #F0F0F0;
+  margin: 8px 0 0;
+  width: stretch;
+}
+input:focus,
+textarea:focus {
+  outline: #176bff auto 1px;
+}
+
+a {
+  color: #176bff;
+  text-decoration: none;
+}
+a:hover {
+  text-decoration: underline;
+}
+a:active {
+  opacity: 0.7;
+}
+
+/*# sourceMappingURL=main.css.map */
