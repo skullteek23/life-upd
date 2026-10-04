@@ -18,3 +18,8 @@ export const Category = {
     slf: 'Self',
     lex: 'Life & Experiences'
 }
+
+export class User {
+    username = '';
+    password = '';
+}
