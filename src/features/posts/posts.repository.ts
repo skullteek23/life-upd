@@ -1,7 +1,8 @@
-import { QueryResultRow, QueryResult } from "pg";
+import { QueryResult } from "pg";
 
 import pool from "../../db/postgres";
-import { IPost, IQuery } from "./posts.type";
+import { IPost } from "./posts.type";
+import { IQuery } from "../../utils/types";
 
 export async function findAllPosts(): Promise<IPost[]> {
     const result = await pool.query<IPost>('SELECT * FROM POSTS WHERE is_pvt = 0');
@@ -13,7 +14,7 @@ export async function findPostsByUserId(id: number): Promise<IPost[]> {
     // helps prevent SQL injection
     // provided by node-postgres
     const query = {
-        text: 'SELECT * FROM posts WHERE is_pvt = 0 OR (is_pvt = 1 AND added_by = $1); ',
+        text: 'SELECT * FROM posts WHERE is_pvt = 0 OR (is_pvt = 1 AND added_by = $1)',
         values: [id]
     }
     return execute(query);

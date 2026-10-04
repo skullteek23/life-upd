@@ -7,10 +7,6 @@ export interface IPost {
     is_pvt: number,
     id: number
 }
-export interface IQuery {
-    text: string;
-    values: any[];
-}
 export enum Category {
     rsh = 'rsh',
     mny = 'mny',
