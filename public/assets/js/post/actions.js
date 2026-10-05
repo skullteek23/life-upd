@@ -19,7 +19,6 @@ class PostAction {
             case 'validate':
                 // Can only create when user is logged in
                 return new Validate().init();
-                break;
             default:
                 console.log('no case matched!');
         }

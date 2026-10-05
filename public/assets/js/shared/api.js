@@ -37,7 +37,6 @@ class ApiService {
         }
 
         return fetch(url, opts)
-            .then(response => response.json());
     }
 }
 
