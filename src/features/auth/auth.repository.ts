@@ -12,16 +12,16 @@ export function findUserByUsername(username: string): Promise<QueryResult<any>> 
     return execute(query);
 }
 
-export function addUser(user: Partial<IUser>) {
+export function addUser(user: Partial<IUser>): Promise<QueryResult<any>> {
     const query = {
-        text: 'INSERT INTO users (username, password_hash) VALUES ($1, $2)',
+        text: 'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *',
         values: [user.username, user.password_hash]
     };
     return execute(query);
 }
 
 // Private functions
-async function execute(query: IQuery): Promise<any> {
+async function execute(query: IQuery): Promise<QueryResult<any>> {
     const result = await pool.query(query);
     return result;
 }

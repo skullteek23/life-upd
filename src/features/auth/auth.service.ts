@@ -1,12 +1,15 @@
+import { getToken } from "../../utils/jwt-token";
 import { compare, toHash } from "../../utils/password";
 import { IStatus } from "../../utils/types";
+import { IUser } from "../users/users.type";
 import { addUser, findUserByUsername } from "./auth.repository";
-import { ILoginData, IUser } from "./auth.type";
+import { ILoginData } from "./auth.type";
 
 export async function signupWithUsername(username: string, password: string): Promise<string> {
     const password_hash = await toHash(password);
-    await addUser({ username, password_hash });
-    return 'token$$$';
+    const user = await addUser({ username, password_hash });
+    const userID = user.rows[0].id;
+    return getToken(userID);
 }
 
 export async function loginWithUsername(loginData: ILoginData): Promise<IStatus> {
@@ -29,11 +32,12 @@ export async function loginWithUsername(loginData: ILoginData): Promise<IStatus>
     } else {
         const user: IUser = result.rows[0];
         const passwordHash = user.password_hash;
+        const token = getToken(user.id);
         if (await compare(password, passwordHash)) {
             // Password matches
             // User is valid
             status.error = '';
-            status.response = 'token$$$';
+            status.response = { token };
             return status;
         }
     }

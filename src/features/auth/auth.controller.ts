@@ -34,7 +34,7 @@ export async function handleSignup(req: Request, res: Response) {
 
     if (flag === 0) {
         const token = await signupWithUsername(username, password);
-        return res.send(token);
+        return res.send({ token });
     }
 
     return handleInvalid(res, 'unknown');

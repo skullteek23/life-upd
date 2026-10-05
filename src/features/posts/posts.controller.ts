@@ -2,10 +2,11 @@ import { type Request, type Response } from 'express';
 import {
     getAllPosts, getPostsByUser, uploadPost
 } from './posts.service';
+import { decodeToken } from '../../utils/jwt-token';
 
 export function handleGet(req: Request, res: Response) {
     const authID = getClientUserId(req);
-    if (Number(req.query.pvt) === 1 && authID) {
+    if (authID) {
         return handlePrivate(req, res, authID);
     } else {
         return handleAll(req, res);
@@ -40,5 +41,11 @@ async function handlePrivate(req: Request, res: Response, userId: number) {
 }
 
 function getClientUserId(req: Request): number {
-    return Number(req.headers['x-user-id']);
+    const key = process.env.TOKEN_HEADER_KEY;
+    const token = req.headers[key || ''];
+    if (token) {
+        const payload = decodeToken(String(token));
+        return Number(payload);
+    }
+    return 0;
 }
