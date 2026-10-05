@@ -98,6 +98,8 @@ header {
                 overflow: hidden;
                 width: 100%;
                 border-radius: 8px;
+                display: flex;
+                flex-direction: column;
 
                 @media screen and (min-width:351px) {
                     box-shadow: $box-shadow;
