@@ -1,8 +1,8 @@
 import { QueryResult } from "pg";
 
 import pool from "../../db/postgres";
-import { IUser } from "./auth.type";
 import { IQuery } from "../../utils/types";
+import { IUser } from "../users/users.type";
 
 export function findUserByUsername(username: string): Promise<QueryResult<any>> {
     const query = {
