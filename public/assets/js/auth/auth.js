@@ -1,32 +1,19 @@
 import ApiService from "../shared/api.js";
 import Login from "./login.js";
 import Signup from "./signup.js";
+import BrowserStorage from "../shared/storage.js";
 
 class Auth {
-    #authToken = 0;
-    #auth = {
-        isLoggedIn: false,
-        username: '',
-        userID: null
-    }
+    #authToken = null;
 
     constructor() {
         this.#setAuth();
     }
 
-    #getAuth() {
-        return this.#auth;
-    }
-
-    #setAuth() {
-        if (Number(this.#authToken) === 1) {
-            this.#auth.isLoggedIn = true;
-            this.#auth.username = '@skullteek23';
-            this.#auth.userID = 2;
-        } else {
-            this.#auth.isLoggedIn = false;
-            this.#auth.username = '';
-            this.#auth.userID = null;
+    async #setAuth() {
+        const token = BrowserStorage.get('token');
+        if (token) {
+            this.#authToken = token;
         }
     }
 
@@ -64,42 +51,32 @@ class Auth {
         this.addAnchorListener('login');
     }
 
+    isLoggedIn() {
+        return this.#authToken != null;
+    }
+
     async login() {
         const { username, password } = new Login().getInput();
         const result = await new ApiService().post('/auth/login', { username, password })
-        if (result) {
-            this.#authToken = 1;
+        if (result['token']) {
+            BrowserStorage.save('token', result['token']);
             this.#setAuth();
             return true;
         }
+        BrowserStorage.clear();
         return false;
     }
 
     async signup() {
         const { username, password } = new Signup().getInput();
         const result = await new ApiService().post('/auth/signup', { username, password })
-        if (result) {
-            this.#authToken = 1;
+        if (result['token']) {
+            BrowserStorage.save('token', result['token']);
             this.#setAuth();
             return true;
         }
+        BrowserStorage.clear();
         return false;
-    }
-
-    #isUserLoggedIn() {
-        return this.#getAuth().isLoggedIn === true;
-    }
-
-    getUserID() {
-        if (this.#isUserLoggedIn()) {
-            return this.#auth.userID;
-        } return null;
-    }
-
-    getUsername() {
-        if (this.#isUserLoggedIn()) {
-            return this.#auth.username;
-        } return null;
     }
 }
 

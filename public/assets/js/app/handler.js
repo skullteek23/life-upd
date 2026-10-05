@@ -14,8 +14,13 @@ class Handler {
     async handle(auth) {
         this.#auth = auth;
         this.#posts = new Posts();
-        this.#posts.load(auth);
-        this.#setBtnLabel(LABELS.login);
+        this.#posts.load();
+
+        if (this.#auth.isLoggedIn()) {
+            this.#setBtnLabel(LABELS.add);
+        } else {
+            this.#setBtnLabel(LABELS.login);
+        }
         this.#setActionsListener();
     }
 
@@ -32,11 +37,11 @@ class Handler {
     async #handleAction(btn) {
         switch (btn.innerText) {
             case LABELS.add:
-                this.#posts.addPost(this.#auth);
+                this.#posts.addPost();
                 this.#setBtnLabel(LABELS.publish);
                 break;
             case LABELS.publish:
-                await this.#posts.publish(this.#auth);
+                await this.#posts.publish();
                 this.#setBtnLabel(LABELS.add);
                 break;
             case LABELS.login:
@@ -47,7 +52,7 @@ class Handler {
                 const isAuthenticated = await this.#auth.continue();
                 if (isAuthenticated) {
                     this.#setBtnLabel(LABELS.add);
-                    this.#posts.load(this.#auth);
+                    this.#posts.load();
                 }
                 break;
 

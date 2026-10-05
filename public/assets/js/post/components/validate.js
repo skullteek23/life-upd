@@ -3,10 +3,10 @@ import { PostData, Category } from "../../shared/models.js";
 class Validate {
     #post;
 
-    init(userID) {
+    init() {
         const form = document.getElementById('input-form');
         const values = Object.fromEntries(new FormData(form));
-        this.#post = new PostData(userID);
+        this.#post = new PostData();
         if (values) {
             this.#validateInput(values);
         }

@@ -4,10 +4,6 @@ export class PostData {
     caption = '';
     category = null;
     is_pvt = null;
-
-    constructor(userID) {
-        this.added_by = userID;
-    }
 }
 
 export const Category = {

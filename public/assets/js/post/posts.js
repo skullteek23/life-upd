@@ -2,34 +2,29 @@ import ApiService from '../shared/api.js';
 import PostAction from './actions.js';
 
 class Posts {
-    async load(auth) {
+    async load() {
         const parseResult = (result) => {
             return result?.length ? result : [];
         }
 
-        const userId = auth.getUserID();
-        const url = '/posts' + (!!userId ? '?pvt=1' : '');
-        let results = await new ApiService().get(url, userId ? { userId } : {});
+        const url = '/posts';
+        let results = await new ApiService().get(url);
         results = parseResult(results);
 
         new PostAction().do('view', results);
     }
 
-    addPost(auth) {
-        new PostAction().do('create', null, { auth });
+    addPost() {
+        new PostAction().do('create', null, {});
     }
 
-    async publish(auth) {
-        const post = new PostAction().do('validate', null, { auth });
-        const userId = auth.getUserID();
-        if (!userId) {
-            return;
-        }
-        const result = await new ApiService().post('/posts', post, { userId })
+    async publish() {
+        const post = new PostAction().do('validate', null, {});
+        const result = await new ApiService().post('/posts', post)
         if (!result) {
             console.warn("Oops! Post didn't upload correctly");
         }
-        this.load(auth);
+        this.load();
     }
 }
 
