@@ -14,4 +14,4 @@ export enum Category {
     wrk = 'wrk',
     slf = 'slf',
     lex = 'lex'
-} 
+}

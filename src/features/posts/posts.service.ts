@@ -1,28 +1,38 @@
-import { addPost, findAllPosts, findPostsByUserId } from "./posts.repository";
+import { addPost, postsForEveryone, postsForUser } from "./posts.repository";
 import { Category, IPost } from "./posts.type";
 
-export function getAllPosts(): Promise<IPost[]> {
-    return findAllPosts()
-        .then(sortPosts);
-}
-
-export function getPostsByUser(userId: number): Promise<IPost[]> {
-    return findPostsByUserId(userId)
-        .then(sortPosts);
+export async function getPosts(userId: number): Promise<IPost[]> {
+    let posts: IPost[] = [];
+    if (userId) {
+        posts = await postsForUser(userId);
+    } else {
+        posts = await postsForEveryone();
+    }
+    return sortPosts(posts);
 }
 
 export async function uploadPost(data: Partial<IPost>, userId: number): Promise<boolean> {
+    if (!data || !userId) {
+        return false;
+    }
+
     data.added_by = userId;
-    data.img_url = 'https://dummyimage.com/600x400/000/fff';
-    if (isValid(data) && userId) {
+    data.img_url = 'https://picsum.photos/200';
+
+    if (!isValid(data)) {
+        return false;
+    }
+
+    try {
         await addPost(data);
         return true;
+    } catch (error) {
+        return false;
     }
-    return false;
 }
 
 function sortPosts(data: IPost[]): IPost[] {
-    return data.sort((a, b) => b.created_at - a.created_at);
+    return data.sort((a, b) => (new Date(b.created_at).getTime() - new Date(a.created_at).getTime()));
 }
 
 function isValid(data: Partial<IPost>): boolean {

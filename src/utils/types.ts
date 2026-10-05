@@ -10,3 +10,15 @@ export interface IStatus extends IResponse {
 export interface IResponse {
     response: any;
 }
+
+declare global {
+    namespace Express {
+        interface Request {
+            user?: {
+                userId: number;
+            };
+        }
+    }
+}
+
+export { };
