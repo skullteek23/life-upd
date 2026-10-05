@@ -2,7 +2,7 @@ import { QueryResult } from "pg";
 
 import pool from "../../db/postgres";
 import { IPost } from "./posts.type";
-import { IQuery } from "../../utils/types";
+import { IQuery } from "../../utils/models";
 
 export async function postsForEveryone(): Promise<IPost[]> {
     const result = await pool.query<IPost>(`

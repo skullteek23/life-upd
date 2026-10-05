@@ -2,7 +2,7 @@ import { QueryResult } from "pg";
 
 import pool from "../../db/postgres";
 import { IUser } from "./users.type";
-import { IQuery } from "../../utils/types";
+import { IQuery } from "../../utils/models";
 
 export async function findAllUsers(): Promise<IUser[]> {
     const result = await pool.query<IUser>('SELECT * FROM users');
@@ -24,9 +24,6 @@ export function addUser(user: Partial<IUser>): Promise<QueryResult<any>> {
     };
     return execute(query);
 }
-
-// Private functions
-
 
 // Private functions
 async function execute(query: IQuery): Promise<QueryResult<any>> {

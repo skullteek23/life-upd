@@ -1,6 +1,6 @@
-import { getToken } from "../../utils/jwt-token";
+import { getToken } from "../../utils/jwt";
 import { compare, toHash } from "../../utils/password";
-import { IStatus } from "../../utils/types";
+import { IStatus } from "../../utils/models";
 import { addUser, findUserByUsername } from "../users/users.repository";
 import { IUser } from "../users/users.type";
 import { ILoginData } from "./auth.type";

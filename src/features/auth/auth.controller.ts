@@ -24,7 +24,3 @@ export async function handleSignup(req: Request, res: Response) {
         res.status(500).send('Signup failed')
     }
 }
-
-function handleInvalid(res: Response, msg: string) {
-    return res.status(400).send(`Invalid User Input: ${msg}`);
-}
