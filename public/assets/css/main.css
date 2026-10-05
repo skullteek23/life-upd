@@ -21,6 +21,18 @@ body .primary-btn:hover {
   cursor: pointer;
   border: rgba(23, 107, 255, 0.2078431373) 1px solid;
 }
+body .logout-btn {
+  margin-left: 8px;
+}
+body .logout-btn:hover {
+  cursor: pointer;
+  border: none;
+  opacity: 0.5;
+}
+body .logout-btn img {
+  height: 100%;
+  width: 100%;
+}
 
 header {
   display: flex;

@@ -3,15 +3,18 @@ import PostAction from './actions.js';
 
 class Posts {
     async load() {
-        const parseResult = (result) => {
-            return result?.length ? result : [];
+        const parseResult = (posts, users) => {
+            posts.forEach(post => {
+                post.added_by = users.find(user => user.id === post.added_by)?.username || 'DELETED_USER';
+            });
+            return posts?.length ? posts : [];
         }
 
-        const url = '/posts';
-        let results = await new ApiService().get(url);
-        results = parseResult(results);
+        let posts = await new ApiService().get('/posts');
+        let users = await new ApiService().get('/users');
+        posts = parseResult(posts, users);
 
-        new PostAction().do('view', results);
+        new PostAction().do('view', posts);
     }
 
     addPost() {

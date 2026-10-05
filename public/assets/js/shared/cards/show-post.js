@@ -7,7 +7,7 @@ class ShowPostCard {
         const template = document.getElementById('post-template');
         const newCard = template.content.cloneNode(true);
 
-        newCard.querySelector('.username').innerText = '@skullteek23';
+        newCard.querySelector('.username').innerText = '@'.concat(item['added_by']);
         newCard.querySelector('.date-posted').innerText = Util.formatDate(item['created_at']);
         newCard.querySelector('.card-image').src = item['img_url'];
         newCard.querySelector('.card-content').innerText = item['caption'];

@@ -30,6 +30,23 @@ body {
             border: $btn-primary-color-35 1px solid;
         }
     }
+
+    .logout-btn {
+        margin-left: 8px;
+
+        &:hover {
+            cursor: pointer;
+            border: none;
+            opacity: 0.5;
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+
+        }
+
+    }
 }
 
 header {

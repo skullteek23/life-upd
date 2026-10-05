@@ -18,6 +18,7 @@ class Handler {
 
         if (this.#auth.isLoggedIn()) {
             this.#setBtnLabel(LABELS.add);
+            this.addLogoutBtn();
         } else {
             this.#setBtnLabel(LABELS.login);
         }
@@ -32,6 +33,33 @@ class Handler {
     #setActionsListener() {
         const btn = document.getElementById('action-btn');
         btn.addEventListener('click', this.#handleAction.bind(this, btn));
+    }
+
+    addLogoutBtn() {
+        if (!document.getElementById('logout-btn')) {
+            const header = document.querySelector('header');
+            const btn = document.createElement('button');
+            const image = document.createElement('img');
+            image.src = 'assets/images/logout.svg';
+            image.alt = 'Logout';
+            btn.classList.add('primary-btn', 'logout-btn');
+            btn.id = 'logout-btn';
+            btn.appendChild(image);
+            btn.addEventListener('click', () => {
+                this.#auth.logout();
+                this.#setBtnLabel(LABELS.login);
+                this.#posts.load();
+                this.removeLogout();
+            });
+            header.appendChild(btn);
+        }
+    }
+
+    removeLogout() {
+        const btn = document.getElementById('logout-btn');
+        if (btn) {
+            btn.remove();
+        }
     }
 
     async #handleAction(btn) {
@@ -51,6 +79,7 @@ class Handler {
             case LABELS.continue:
                 const isAuthenticated = await this.#auth.continue();
                 if (isAuthenticated) {
+                    this.addLogoutBtn();
                     this.#setBtnLabel(LABELS.add);
                     this.#posts.load();
                 }

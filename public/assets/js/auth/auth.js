@@ -55,6 +55,10 @@ class Auth {
         return this.#authToken != null;
     }
 
+    logout() {
+        BrowserStorage.clear();
+    }
+
     async login() {
         const { username, password } = new Login().getInput();
         const result = await new ApiService().post('/auth/login', { username, password })
