@@ -61,7 +61,7 @@ class Auth {
 
     async login() {
         const { username, password } = new Login().getInput();
-        const result = await new ApiService().post('/auth/login', { username, password })
+        const result = await (new ApiService().post('/auth/login', { username, password }).then(response => response.json()))
         if (result['token']) {
             BrowserStorage.save('token', result['token']);
             this.#setAuth();
@@ -73,7 +73,7 @@ class Auth {
 
     async signup() {
         const { username, password } = new Signup().getInput();
-        const result = await new ApiService().post('/auth/signup', { username, password })
+        const result = await (new ApiService().post('/auth/signup', { username, password }).then(response => response.json()))
         if (result['token']) {
             BrowserStorage.save('token', result['token']);
             this.#setAuth();
