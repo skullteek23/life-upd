@@ -1,6 +1,6 @@
 export class PostData {
     added_by = undefined;
-    // img_url;
+    photo = null;
     caption = '';
     category = null;
     is_pvt = null;

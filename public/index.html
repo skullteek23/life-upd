@@ -44,8 +44,11 @@
 
           <div class="card-content">
             <!-- Photo -->
-            <input type="hidden" name="photo" id="photo" />
-            <img class="card-image" hidden />
+            <input type="file" name="photo" id="photo" accept="image/*" hidden />
+            <img class="card-image-input" id="input-image" src="/assets/images/placeholder.png" alt="Select Photo" />
+            <button class="primary-btn remove-image-btn" type="button">
+              <img src="/assets/images/cross.svg" alt="Remove Photo" />
+            </button>
             <!-- Photo -->
 
             <!-- Caption -->

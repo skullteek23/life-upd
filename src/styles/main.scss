@@ -115,6 +115,33 @@ header {
                     }
                 }
 
+                .card-image-input {
+                    background: $input-bg-color;
+                    border-radius: 8px;
+                    cursor: pointer;
+                }
+
+                .remove-image-btn {
+                    position: absolute;
+                    margin: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: white;
+
+                    &:hover {
+                        cursor: pointer;
+                        border: none;
+                        opacity: 0.5;
+                    }
+
+                    img {
+                        height: 24px;
+                        width: 24px;
+                        margin: 0;
+                    }
+                }
+
                 .card-title,
                 .footer-title {
                     font-size: 13px;
@@ -218,6 +245,8 @@ header {
                 margin: 4px 0 8px;
                 font-weight: 400;
                 font-size: 15px;
+                display: flex;
+                flex-direction: column;
             }
 
             img {

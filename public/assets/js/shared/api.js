@@ -8,7 +8,6 @@ class ApiService {
         const opts = {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
                 ...options.headers
             }
         }
@@ -22,18 +21,21 @@ class ApiService {
         const token = BrowserStorage.get('token');
         const opts = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            }
+            headers: {}
         };
 
         if (token != null) {
             opts.headers[this.#authHeaderKey] = token;
         }
 
-        if (Object.keys(body).length > 0) {
+        if (options.sendImage === true) {
+            opts.body = body;
+        } else if (Object.keys(body).length > 0) {
             opts.body = JSON.stringify(body);
+            opts.headers = {
+                'Content-Type': 'application/json',
+                ...options.headers,
+            }
         }
 
         return fetch(url, opts)

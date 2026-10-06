@@ -98,6 +98,29 @@ header .action-btn {
   font-size: 11px;
   padding: 0 12px;
 }
+.feed #posts li .card .card-image-input {
+  background: #F0F0F0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.feed #posts li .card .remove-image-btn {
+  position: absolute;
+  margin: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+.feed #posts li .card .remove-image-btn:hover {
+  cursor: pointer;
+  border: none;
+  opacity: 0.5;
+}
+.feed #posts li .card .remove-image-btn img {
+  height: 24px;
+  width: 24px;
+  margin: 0;
+}
 .feed #posts li .card .card-title,
 .feed #posts li .card .footer-title {
   font-size: 13px;
@@ -190,6 +213,8 @@ header .action-btn {
   margin: 4px 0 8px;
   font-weight: 400;
   font-size: 15px;
+  display: flex;
+  flex-direction: column;
 }
 .feed #posts li img {
   max-width: 100%;
