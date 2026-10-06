@@ -210,6 +210,17 @@ textarea:focus {
   outline: #176bff auto 1px;
 }
 
+select {
+  border: none;
+  border-radius: 8px;
+  padding: 0 8px;
+  background: #F0F0F0;
+  width: 100px;
+}
+select:focus {
+  outline: #176bff auto 1px;
+}
+
 a {
   color: #176bff;
   text-decoration: none;

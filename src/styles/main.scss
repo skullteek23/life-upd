@@ -245,6 +245,18 @@ textarea {
     }
 }
 
+select {
+    border: none;
+    border-radius: 8px;
+    padding: 0 8px;
+    background: $input-bg-color;
+    width: 100px;
+
+    &:focus {
+        outline: $btn-primary-color auto 1px;
+    }
+}
+
 a {
     color: $btn-primary-color;
     text-decoration: none;
