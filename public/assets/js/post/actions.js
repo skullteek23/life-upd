@@ -13,17 +13,12 @@ class PostAction {
                 break;
 
             case 'create':
-                if (dependency.auth.getUserID()) {
-                    // Can only create when user is logged in
-                    new Create().init();
-                }
+                // Can only create when user is logged in
+                new Create().init();
                 break;
             case 'validate':
-                if (dependency.auth.getUserID()) {
-                    // Can only create when user is logged in
-                    return new Validate().init(dependency.auth.getUserID());
-                }
-                break;
+                // Can only create when user is logged in
+                return new Validate().init();
             default:
                 console.log('no case matched!');
         }

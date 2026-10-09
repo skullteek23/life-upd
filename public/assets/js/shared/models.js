@@ -1,13 +1,9 @@
 export class PostData {
     added_by = undefined;
-    // img_url;
+    photo = null;
     caption = '';
     category = null;
     is_pvt = null;
-
-    constructor(userID) {
-        this.added_by = userID;
-    }
 }
 
 export const Category = {
@@ -17,4 +13,9 @@ export const Category = {
     wrk: 'Work',
     slf: 'Self',
     lex: 'Life & Experiences'
+}
+
+export class User {
+    username = '';
+    password = '';
 }

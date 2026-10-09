@@ -1,36 +1,44 @@
+import BrowserStorage from "./storage.js";
+
 class ApiService {
-    #authHeaderKey = 'x-user-id';
+    #authHeaderKey = 'token';
 
     get(url, options = {}) {
-        return fetch(url, {
+        const token = BrowserStorage.get('token');
+        const opts = {
             method: 'GET',
             headers: {
-                'Content-Type': 'application/json',
-                [this.#authHeaderKey]: options.userId,
                 ...options.headers
             }
-        }).then(response => response.json())
+        }
+        if (token != null) {
+            opts.headers[this.#authHeaderKey] = token;
+        }
+        return fetch(url, opts).then(response => response.json())
     }
 
     post(url, body = {}, options = {}) {
+        const token = BrowserStorage.get('token');
         const opts = {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                ...options.headers
-            }
+            headers: {}
         };
 
-        if (options.userId !== undefined) {
-            opts.headers[this.#authHeaderKey] = options.userId;
+        if (token != null) {
+            opts.headers[this.#authHeaderKey] = token;
         }
 
-        if (Object.keys(body).length > 0) {
+        if (options.hasImage === true) {
+            opts.body = body;
+        } else if (Object.keys(body).length > 0) {
             opts.body = JSON.stringify(body);
+            opts.headers = {
+                'Content-Type': 'application/json',
+                ...options.headers,
+            }
         }
 
         return fetch(url, opts)
-            .then(response => response.ok);
     }
 }
 

@@ -21,6 +21,18 @@ body .primary-btn:hover {
   cursor: pointer;
   border: rgba(23, 107, 255, 0.2078431373) 1px solid;
 }
+body .logout-btn {
+  margin-left: 8px;
+}
+body .logout-btn:hover {
+  cursor: pointer;
+  border: none;
+  opacity: 0.5;
+}
+body .logout-btn img {
+  height: 100%;
+  width: 100%;
+}
 
 header {
   display: flex;
@@ -70,6 +82,8 @@ header .action-btn {
   overflow: hidden;
   width: 100%;
   border-radius: 8px;
+  display: flex;
+  flex-direction: column;
 }
 @media screen and (min-width: 351px) {
   .feed #posts li .card {
@@ -83,6 +97,29 @@ header .action-btn {
 .feed #posts li .card footer .footer-subtitle {
   font-size: 11px;
   padding: 0 12px;
+}
+.feed #posts li .card .card-image-input {
+  background: #F0F0F0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+.feed #posts li .card .remove-image-btn {
+  position: absolute;
+  margin: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: white;
+}
+.feed #posts li .card .remove-image-btn:hover {
+  cursor: pointer;
+  border: none;
+  opacity: 0.5;
+}
+.feed #posts li .card .remove-image-btn img {
+  height: 24px;
+  width: 24px;
+  margin: 0;
 }
 .feed #posts li .card .card-title,
 .feed #posts li .card .footer-title {
@@ -176,6 +213,8 @@ header .action-btn {
   margin: 4px 0 8px;
   font-weight: 400;
   font-size: 15px;
+  display: flex;
+  flex-direction: column;
 }
 .feed #posts li img {
   max-width: 100%;
@@ -193,6 +232,17 @@ textarea {
 }
 input:focus,
 textarea:focus {
+  outline: #176bff auto 1px;
+}
+
+select {
+  border: none;
+  border-radius: 8px;
+  padding: 0 8px;
+  background: #F0F0F0;
+  width: 100px;
+}
+select:focus {
   outline: #176bff auto 1px;
 }
 

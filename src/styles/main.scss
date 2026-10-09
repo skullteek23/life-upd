@@ -30,6 +30,23 @@ body {
             border: $btn-primary-color-35 1px solid;
         }
     }
+
+    .logout-btn {
+        margin-left: 8px;
+
+        &:hover {
+            cursor: pointer;
+            border: none;
+            opacity: 0.5;
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+
+        }
+
+    }
 }
 
 header {
@@ -81,6 +98,8 @@ header {
                 overflow: hidden;
                 width: 100%;
                 border-radius: 8px;
+                display: flex;
+                flex-direction: column;
 
                 @media screen and (min-width:351px) {
                     box-shadow: $box-shadow;
@@ -93,6 +112,33 @@ header {
                     .footer-subtitle {
                         font-size: 11px;
                         padding: 0 12px;
+                    }
+                }
+
+                .card-image-input {
+                    background: $input-bg-color;
+                    border-radius: 8px;
+                    cursor: pointer;
+                }
+
+                .remove-image-btn {
+                    position: absolute;
+                    margin: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: white;
+
+                    &:hover {
+                        cursor: pointer;
+                        border: none;
+                        opacity: 0.5;
+                    }
+
+                    img {
+                        height: 24px;
+                        width: 24px;
+                        margin: 0;
                     }
                 }
 
@@ -199,6 +245,8 @@ header {
                 margin: 4px 0 8px;
                 font-weight: 400;
                 font-size: 15px;
+                display: flex;
+                flex-direction: column;
             }
 
             img {
@@ -220,6 +268,18 @@ textarea {
     background: $input-bg-color;
     margin: 8px 0 0;
     width: stretch;
+
+    &:focus {
+        outline: $btn-primary-color auto 1px;
+    }
+}
+
+select {
+    border: none;
+    border-radius: 8px;
+    padding: 0 8px;
+    background: $input-bg-color;
+    width: 100px;
 
     &:focus {
         outline: $btn-primary-color auto 1px;

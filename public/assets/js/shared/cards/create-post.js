@@ -6,6 +6,7 @@ class CreatePostCard {
         const createCard = template.content.cloneNode(true);
 
         this.#setCategoryInput(createCard);
+        this.#setImageInput(createCard);
         this.#setVisibilityInput(createCard);
 
         return createCard;
@@ -41,6 +42,40 @@ class CreatePostCard {
 
             container.appendChild(action);
         }
+    }
+
+    static #setImageInput(form) {
+        const image = form.querySelector('.card-image-input');
+        const removeBtn = form.querySelector('.remove-image-btn');
+        removeBtn.disabled = true;
+        const fileInput = form.querySelector('#photo');
+
+        let imageUrl = null;
+
+        fileInput.addEventListener('change', (e) => {
+            const file = e.currentTarget.files[0];
+
+            if (!file) return;
+
+            if (imageUrl) {
+                URL.revokeObjectURL(imageUrl);
+            }
+
+            imageUrl = URL.createObjectURL(file);
+            image.src = imageUrl;
+            removeBtn.disabled = false;
+        });
+
+        removeBtn.addEventListener('click', (e) => {
+            if (image.src !== '/assets/images/placeholder.png') {
+                image.src = '/assets/images/placeholder.png';
+                e.currentTarget.disabled = true;
+            }
+        })
+
+        image.addEventListener('click', () => {
+            fileInput.click();
+        });
     }
 
     static #setVisibilityInput(form) {

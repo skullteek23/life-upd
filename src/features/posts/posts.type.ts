@@ -7,10 +7,6 @@ export interface IPost {
     is_pvt: number,
     id: number
 }
-export interface IQuery {
-    text: string;
-    values: any[];
-}
 export enum Category {
     rsh = 'rsh',
     mny = 'mny',
@@ -18,4 +14,11 @@ export enum Category {
     wrk = 'wrk',
     slf = 'slf',
     lex = 'lex'
-} 
+}
+
+export type ImageFile = Express.Multer.File;
+
+export const ERROR_CODES = {
+    imageProcessingError: 'Image processing error',
+    compressionAborted: 'COMPRESSION ABORTED'
+}
