@@ -19,11 +19,14 @@ class Posts {
 
     async publish() {
         const post = new PostAction().do('validate', null, {});
-        const result = await new ApiService().post('/posts', post, { sendImage: true, headers: {} })
+        const result = await new ApiService().post('/posts', post, { hasImage: true, headers: {} })
         if (!result.ok) {
             console.warn("Oops! Post didn't upload correctly");
+            return false;
+        } else {
+            this.load();
+            return true;
         }
-        this.load();
     }
 }
 

@@ -69,8 +69,8 @@ class Handler {
                 this.#setBtnLabel(LABELS.publish);
                 break;
             case LABELS.publish:
-                await this.#posts.publish();
-                this.#setBtnLabel(LABELS.add);
+                const result = await this.#posts.publish();
+                result ? this.#setBtnLabel(LABELS.add) : null;
                 break;
             case LABELS.login:
                 this.#auth.openLoginInput();

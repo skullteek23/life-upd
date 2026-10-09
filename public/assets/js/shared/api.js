@@ -28,7 +28,7 @@ class ApiService {
             opts.headers[this.#authHeaderKey] = token;
         }
 
-        if (options.sendImage === true) {
+        if (options.hasImage === true) {
             opts.body = body;
         } else if (Object.keys(body).length > 0) {
             opts.body = JSON.stringify(body);
