@@ -1,19 +1,19 @@
 import { randomUUID } from 'crypto';
-import { addPost, postsForEveryone, postsForUser } from "./posts.repository";
-import { Category, ERROR_CODES, IPost, ImageFile } from "./posts.type";
+import { addPost, queryPosts } from "./posts.repository";
+import { Category, ERROR_CODES, IPost, ImageFile, PostFilters } from "./posts.type";
 import { processImage } from 'src/utils/img-processing';
 import { IStatus } from 'src/utils/models';
 
 export const MAX_INPUT_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
 export const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heif', 'image/heic'];
 
-export async function getPosts(userId: number): Promise<IPost[]> {
+export async function getPosts(queryParams: any): Promise<IPost[]> {
     let posts: IPost[] = [];
-    if (userId) {
-        posts = await postsForUser(userId);
-    } else {
-        posts = await postsForEveryone();
-    }
+    const filters: PostFilters = queryParams;
+    filters.within = queryParams['within'];
+    filters.typeOf = queryParams['typeOf'];
+    filters.ofUser = queryParams['userId'];
+    posts = await queryPosts(filters);
     return sortPosts(posts);
 }
 

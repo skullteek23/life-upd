@@ -7,7 +7,7 @@ import { ERROR_CODES } from './posts.type';
 
 export async function handleGet(req: Request, res: Response) {
     const userId = req.user?.userId || 0;
-    const result = await getPosts(userId);
+    const result = await getPosts({ userId, ...req.query });
     if (result) {
         return res.send(result);
     } else {
