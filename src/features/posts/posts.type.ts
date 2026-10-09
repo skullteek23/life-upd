@@ -22,3 +22,20 @@ export const ERROR_CODES = {
     imageProcessingError: 'Image processing error',
     compressionAborted: 'COMPRESSION ABORTED'
 }
+
+export interface PostFilters {
+    within: string;
+    typeOf: string;
+    ofUser: number;
+}
+
+export const DB_KEY = {
+    username: 'username',
+    added_by: 'added_by',
+    img_url: 'img_url',
+    caption: 'caption',
+    created_at: 'created_at',
+    category: 'category',
+    is_pvt: 'is_pvt',
+    id: 'id'
+}
