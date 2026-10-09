@@ -2,23 +2,35 @@ import { type Request, type Response } from 'express';
 import {
     getPosts, uploadPost
 } from './posts.service';
+import { IStatus } from 'src/utils/models';
+import { ERROR_CODES } from './posts.type';
 
 export async function handleGet(req: Request, res: Response) {
     const userId = req.user?.userId || 0;
     const result = await getPosts(userId);
     if (result) {
-        res.send(result);
+        return res.send(result);
     } else {
-        res.status(500).send('Something went wrong! Try again later');
+        return res.status(500).send({ msg: `Failed: Unable to get posts` })
     }
 }
 
 export async function handleCreate(req: Request, res: Response) {
     const userId = req.user?.userId || 0;
     const body = req.body || {};
-    if (await uploadPost(body, userId)) {
-        res.send('Post added!')
+    const file = req.file || null;
+    if (body && file) {
+        const status: IStatus = await uploadPost(body, file, userId);
+        if (status.error === ERROR_CODES.imageProcessingError) {
+            return res.status(500).send({ msg: `Failed: IMAGE NOT SAVED` })
+        } else if (status.error === ERROR_CODES.compressionAborted) {
+            return res.status(413).send({ msg: `Failed: IMAGE TOO BIG` })
+        } else if (status.error) {
+            return res.status(400).send({ msg: `Failed: INVALID POST` })
+        } else {
+            return res.send({ msg: `Success: POST ADDED` })
+        }
     } else {
-        res.status(400).send('Invalid payload!');
+        return res.status(400).send({ msg: `Failed: INVALID PAYLOAD` });
     }
 }

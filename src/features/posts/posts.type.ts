@@ -15,3 +15,10 @@ export enum Category {
     slf = 'slf',
     lex = 'lex'
 }
+
+export type ImageFile = Express.Multer.File;
+
+export const ERROR_CODES = {
+    imageProcessingError: 'Image processing error',
+    compressionAborted: 'COMPRESSION ABORTED'
+}

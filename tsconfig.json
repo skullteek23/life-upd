@@ -7,7 +7,14 @@
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "ignoreDeprecations": "6.0",
+    "baseUrl": ".",
+    "paths": {
+      "@middleware/*": [
+        "src/middleware/*"
+      ]
+    }
   },
   "include": [
     "src",

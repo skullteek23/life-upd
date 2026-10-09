@@ -10,3 +10,9 @@ export interface IStatus extends IResponse {
 export interface IResponse {
     response: any;
 }
+
+export interface ImageResizingOpts {
+    height: number,
+    width: number,
+
+}
