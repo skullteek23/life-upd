@@ -1,5 +1,5 @@
-import ApiService from "../../shared/api.js";
-import PostAction from "../actions.js";
+import ApiService from "./api.js";
+import PostAction from "./actions.js";
 
 class PostFilters {
     async show() {
@@ -8,7 +8,10 @@ class PostFilters {
     }
 
     addDateFilter() {
-        const filter = document.getElementById('feed-filter-date');
+        const filterContainer = document.getElementById('filter');
+        const filter = document.createElement('div');
+        filter.classList.add('date-filter')
+
         const resetBtn = document.createElement('button');
         const img = document.createElement('img');
 
@@ -36,6 +39,8 @@ class PostFilters {
             })
             filter.appendChild(btn);
         })
+
+        filterContainer.appendChild(filter);
     }
 
     async queryPosts(filter) {

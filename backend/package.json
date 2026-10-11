@@ -4,10 +4,8 @@
   "main": "dist/index.js",
   "scripts": {
     "dev:server": "tsx watch src/server.ts",
-    "dev:sass": "sass --watch src/styles/main.scss:public/assets/css/main.css",
-    "dev": "concurrently \"npm run dev:server\" \"npm run dev:sass\"",
-    "sass:build": "sass src/styles/main.scss:public/assets/css/main.css",
-    "build": "tsc && npm run sass:build",
+    "dev": "npm run dev:server",
+    "build": "tsc",
     "start": "node dist/server.js"
   },
   "keywords": [],

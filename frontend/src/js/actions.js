@@ -1,6 +1,6 @@
-import Create from './components/create.js';
-import Validate from './components/validate.js';
-import View from './components/view.js';
+import Create from './create.js';
+import Validate from './validate.js';
+import View from './view.js';
 
 class PostAction {
 

@@ -1,6 +1,6 @@
-import ApiService from '../shared/api.js';
+import ApiService from './api.js';
 import PostAction from './actions.js';
-import PostFilters from './components/filters.js';
+import PostFilters from './filters.js';
 
 class Posts {
     async load() {

@@ -1,7 +1,7 @@
-import ApiService from "../shared/api.js";
+import ApiService from "./api.js";
 import Login from "./login.js";
 import Signup from "./signup.js";
-import BrowserStorage from "../shared/storage.js";
+import BrowserStorage from "./storage.js";
 
 class Auth {
     #authToken = null;

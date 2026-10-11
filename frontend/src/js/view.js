@@ -1,4 +1,4 @@
-import Card from "../../shared/cards/card.js";
+import Card from "./card.js";
 
 class View {
     async init(data) {

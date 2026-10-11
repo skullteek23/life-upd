@@ -1,7 +1,7 @@
 import CreatePostCard from "./create-post.js";
-import LoginCard from "./login.js";
+import LoginCard from "./login-card.js";
 import ShowPostCard from "./show-post.js";
-import SignupCard from "./signup.js";
+import SignupCard from "./signup-card.js";
 
 export class Card {
     get(type, cardData) {

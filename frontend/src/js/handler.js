@@ -1,4 +1,4 @@
-import Posts from '../post/posts.js';
+import Posts from './posts.js';
 
 const LABELS = {
     add: '+ Add',
@@ -65,6 +65,7 @@ class Handler {
     async #handleAction(btn) {
         switch (btn.innerText) {
             case LABELS.add:
+                this.removeFilters();
                 this.#posts.addPost();
                 this.#setBtnLabel(LABELS.publish);
                 break;
@@ -73,6 +74,7 @@ class Handler {
                 result ? this.#setBtnLabel(LABELS.add) : null;
                 break;
             case LABELS.login:
+                this.removeFilters();
                 this.#auth.openLoginInput();
                 this.#setBtnLabel(LABELS.continue);
                 break;
@@ -88,6 +90,11 @@ class Handler {
             default:
                 console.log('no case matched!');
         }
+    }
+
+    removeFilters() {
+        const filters = document.getElementById('filter');
+        filters.replaceChildren();
     }
 }
 

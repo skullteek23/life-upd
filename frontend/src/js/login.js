@@ -1,5 +1,5 @@
-import Card from "../shared/cards/card.js";
-import { User } from "../shared/models.js";
+import Card from "./card.js";
+import { User } from "./models.js";
 
 class Login {
     show() {

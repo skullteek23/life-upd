@@ -1,4 +1,5 @@
-import Util from "../utility.js";
+import Util from "./utility.js";
+import { DOMAIN_URL } from "./api.js";
 
 class ShowPostCard {
     static #assetsEndpoint = '/assets/images/';
@@ -9,7 +10,7 @@ class ShowPostCard {
 
         newCard.querySelector('.username').innerText = '@'.concat(item['added_by']);
         newCard.querySelector('.date-posted').innerText = Util.formatDate(item['created_at']);
-        newCard.querySelector('.card-image').src = item['img_url'];
+        newCard.querySelector('.card-image').src = `${DOMAIN_URL}/${item['img_url']}`;
         newCard.querySelector('.card-content').innerText = item['caption'];
 
         if (item['is_pvt'] === 1) {

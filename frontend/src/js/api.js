@@ -1,7 +1,10 @@
 import BrowserStorage from "./storage.js";
 
+export const DOMAIN_URL = 'http://localhost:3000';
+
 class ApiService {
     #authHeaderKey = 'token';
+    #domain = DOMAIN_URL;
 
     get(url, options = {}) {
         const token = BrowserStorage.get('token');
@@ -14,7 +17,7 @@ class ApiService {
         if (token != null) {
             opts.headers[this.#authHeaderKey] = token;
         }
-        return fetch(url, opts).then(response => response.json())
+        return fetch(this.#domain + url, opts).then(response => response.json())
     }
 
     post(url, body = {}, options = {}) {
@@ -38,7 +41,7 @@ class ApiService {
             }
         }
 
-        return fetch(url, opts)
+        return fetch(this.#domain + url, opts)
     }
 }
 
