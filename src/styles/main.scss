@@ -6,6 +6,8 @@ $btn-primary-color-35: #176bff35;
 $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 $time-color: #6a717a;
 $input-bg-color: #F0F0F0;
+$input-bg-color-darker: #F0F0F070;
+$input-bg-color-lighter: #F0F0F020;
 
 * {
     font-family: 'Open Sans', sans-serif;
@@ -79,10 +81,80 @@ header {
 }
 
 .feed {
+    .date-filter {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        overflow-x: auto;
+        max-width: 350px;
+        margin: 12px auto 0;
+        /* Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: #888 transparent;
+
+        @media screen and (min-width:459px) {}
+
+        /* Chrome, Edge, Safari */
+        &::-webkit-scrollbar {
+            height: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .cross-btn {
+            min-width: 38px !important;
+            width: 38px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                height: 16px;
+                width: 16px;
+            }
+        }
+
+        .selectable-btn {
+            background-color: $input-bg-color;
+            height: 38px;
+            max-height: 38px;
+            width: 100%;
+            min-width: 100px;
+            max-width: 100px;
+            border-radius: 39px;
+            color: #00000090;
+            font-size: 13px;
+            border: none;
+            box-sizing: border-box;
+
+            &:hover {
+                cursor: pointer;
+                background-color: $input-bg-color-darker;
+            }
+        }
+
+        .selectable-btn.selected {
+            color: black;
+            background-color: $input-bg-color-lighter;
+            border: 1px solid #888;
+        }
+    }
+
     #posts {
         max-width: 350px;
         margin: auto;
-        margin-top: 6px;
+        margin-top: 12px;
         padding-inline-start: 0;
 
         li {

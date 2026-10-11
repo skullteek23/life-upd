@@ -1,16 +1,10 @@
 import ApiService from '../shared/api.js';
 import PostAction from './actions.js';
+import PostFilters from './components/filters.js';
 
 class Posts {
     async load() {
-        const parseResult = (posts) => {
-            return posts?.length ? posts : [];
-        }
-
-        let posts = await new ApiService().get('/posts');
-        posts = parseResult(posts);
-
-        new PostAction().do('view', posts);
+        await new PostFilters().show();
     }
 
     addPost() {
@@ -28,6 +22,15 @@ class Posts {
             return true;
         }
     }
+}
+
+export const Category = {
+    rsh: 'Relationship',
+    mny: 'Money',
+    hlt: 'Health',
+    wrk: 'Work',
+    slf: 'Self',
+    lex: 'Life & Experiences'
 }
 
 export default Posts;

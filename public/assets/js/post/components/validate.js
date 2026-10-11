@@ -1,4 +1,5 @@
-import { PostData, Category } from "../../shared/models.js";
+import { PostData } from "../../shared/models.js";
+import { Category } from "../posts.js";
 
 class Validate {
     #post;

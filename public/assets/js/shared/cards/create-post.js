@@ -1,4 +1,4 @@
-import { Category } from "../models.js";
+import { Category } from "../../post/posts.js";
 
 class CreatePostCard {
     static get() {
