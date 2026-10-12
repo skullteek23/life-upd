@@ -8,9 +8,7 @@ import { handleError } from '@middleware/error.middleware';
 
 const app = express();
 
-app.use(cors({
-    origin: 'http://localhost:5173'
-}));
+app.use(cors({ origin: 'http://localhost:4200' }));
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public', 'uploads')));
 

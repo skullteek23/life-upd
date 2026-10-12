@@ -17,7 +17,7 @@ class ApiService {
         if (token != null) {
             opts.headers[this.#authHeaderKey] = token;
         }
-        return fetch(this.#domain + url, opts).then(response => response.json())
+        return fetch(this.#domain + url, opts).then(response => response.json()).catch(err => console.log(err.message))
     }
 
     post(url, body = {}, options = {}) {
@@ -41,7 +41,7 @@ class ApiService {
             }
         }
 
-        return fetch(this.#domain + url, opts)
+        return fetch(this.#domain + url, opts).catch(err => console.log(err.message))
     }
 }
 
