@@ -1,11 +1,10 @@
+import Posts from '../posts/post-service.js';
 import Handler from './handler.js';
-import Auth from '../auth/auth.js';
 
 class App {
     async init() {
-        this.auth = new Auth();
-        this.handler = new Handler();
-        this.handler.handle(this.auth);
+        new Handler().handle();
+        new Posts().load();
     }
 }
 

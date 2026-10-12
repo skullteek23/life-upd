@@ -1,6 +1,7 @@
+import Auth from '../auth/auth.js';
 import Posts from '../posts/post-service.js';
 
-const LABELS = {
+const ACTIONS = {
     add: '+ Add',
     login: 'Login',
     continue: 'Continue',
@@ -9,18 +10,17 @@ const LABELS = {
 
 class Handler {
     #auth;
-    #posts;
 
-    async handle(auth) {
-        this.#auth = auth;
-        this.#posts = new Posts();
-        this.#posts.load();
+    constructor() {
+        this.#auth = new Auth();
+    }
 
+    async handle() {
         if (this.#auth.isLoggedIn()) {
-            this.#setBtnLabel(LABELS.add);
+            this.#setBtnLabel(ACTIONS.add);
             this.addLogoutBtn();
         } else {
-            this.#setBtnLabel(LABELS.login);
+            this.#setBtnLabel(ACTIONS.login);
         }
         this.#setActionsListener();
     }
@@ -47,8 +47,8 @@ class Handler {
             btn.appendChild(image);
             btn.addEventListener('click', () => {
                 this.#auth.logout();
-                this.#setBtnLabel(LABELS.login);
-                this.#posts.load();
+                this.#setBtnLabel(ACTIONS.login);
+                new Posts().load();
                 this.removeLogout();
             });
             header.appendChild(btn);
@@ -64,37 +64,31 @@ class Handler {
 
     async #handleAction(btn) {
         switch (btn.innerText) {
-            case LABELS.add:
-                this.removeFilters();
-                this.#posts.addPost();
-                this.#setBtnLabel(LABELS.publish);
+            case ACTIONS.add:
+                new Posts().create();
+                this.#setBtnLabel(ACTIONS.publish);
                 break;
-            case LABELS.publish:
-                const result = await this.#posts.publish();
-                result ? this.#setBtnLabel(LABELS.add) : null;
+            case ACTIONS.publish:
+                const result = await new Posts().publish();
+                result ? this.#setBtnLabel(ACTIONS.add) : null;
                 break;
-            case LABELS.login:
-                this.removeFilters();
+            case ACTIONS.login:
+                new Posts().clear();
                 this.#auth.openLoginInput();
-                this.#setBtnLabel(LABELS.continue);
+                this.#setBtnLabel(ACTIONS.continue);
                 break;
-            case LABELS.continue:
+            case ACTIONS.continue:
                 const isAuthenticated = await this.#auth.continue();
                 if (isAuthenticated) {
                     this.addLogoutBtn();
-                    this.#setBtnLabel(LABELS.add);
-                    this.#posts.load();
+                    this.#setBtnLabel(ACTIONS.add);
+                    new Posts().load();
                 }
                 break;
 
             default:
                 console.log('no case matched!');
         }
-    }
-
-    removeFilters() {
-        const filters = document.getElementById('filter');
-        filters.replaceChildren();
     }
 }
 

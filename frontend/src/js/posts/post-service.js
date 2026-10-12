@@ -3,6 +3,23 @@ import Create from './post-create.js';
 import Validate from './post-validator.js';
 import View from "./post-view.js";
 
+export const Category = {
+    rsh: 'Relationship',
+    mny: 'Money',
+    hlt: 'Health',
+    wrk: 'Work',
+    slf: 'Self',
+    lex: 'Life & Experiences'
+}
+
+export class Post {
+    added_by = undefined;
+    photo = null;
+    caption = '';
+    category = null;
+    is_pvt = null;
+}
+
 class Posts {
     load() {
         new Filters().show();
@@ -10,29 +27,31 @@ class Posts {
     }
 
     create() {
+        new Filters().clear();
         new Create().init();
     }
 
     async publish() {
         const post = new Validate().init();
-        const result = await new ApiService().post('/posts', post, { hasImage: true, headers: {} })
-        if (!result.ok) {
-            console.warn("Oops! Post didn't upload correctly");
-            return false;
-        } else {
+        const result = await new Data().set(post);
+        if (result) {
             this.load();
             return true;
         }
+    }
+
+    clear() {
+        new Filters().clear();
     }
 }
 
 class Filters {
     show() {
-        this.showDateFilter();
+        const container = this.clear();
+        this.showDateFilter(container);
     }
 
-    showDateFilter() {
-        const filterContainer = document.getElementById('filter');
+    showDateFilter(container) {
         const filter = document.createElement('div');
         filter.classList.add('date-filter')
 
@@ -64,7 +83,13 @@ class Filters {
             filter.appendChild(btn);
         });
 
-        filterContainer.replaceChildren(filter);
+        container.appendChild(filter);
+    }
+
+    clear() {
+        const filters = document.getElementById('filter');
+        filters.replaceChildren();
+        return filters;
     }
 
 }
@@ -81,6 +106,15 @@ class Data {
         const result = parseResult(await new ApiService().get(`/posts?${params}`));
         new View().init(result);
     }
+
+    async set(data) {
+        const result = await new ApiService().post('/posts', data, { hasImage: true, headers: {} })
+        if (!result.ok) {
+            console.warn("Oops! Post didn't upload correctly");
+            return false;
+        }
+        return true;
+    }
 }
 
 const filters = [
@@ -89,22 +123,5 @@ const filters = [
     { value: 'last-6m', label: '6 Months', urlParamKey: 'within' },
     { value: 'last-y', label: 'This Year', urlParamKey: 'within' },
 ]
-
-export const Category = {
-    rsh: 'Relationship',
-    mny: 'Money',
-    hlt: 'Health',
-    wrk: 'Work',
-    slf: 'Self',
-    lex: 'Life & Experiences'
-}
-
-export class Post {
-    added_by = undefined;
-    photo = null;
-    caption = '';
-    category = null;
-    is_pvt = null;
-}
 
 export default Posts;
