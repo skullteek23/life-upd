@@ -1,5 +1,4 @@
-import { PostData } from "./models.js";
-import { Category } from "./posts.js";
+import { Category, Post } from "./post-service.js";
 
 class Validate {
     #post;
@@ -7,7 +6,7 @@ class Validate {
     init() {
         const form = document.getElementById('input-form');
         const values = Object.fromEntries(new FormData(form));
-        this.#post = new PostData();
+        this.#post = new Post();
         if (values) {
             this.#validateInput(values);
 

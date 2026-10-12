@@ -1,13 +1,37 @@
-import ApiService from "./api.js";
-import PostAction from "./actions.js";
+import ApiService from '../data/api-service.js';
+import Create from './post-create.js';
+import Validate from './post-validator.js';
+import View from "./post-view.js";
 
-class PostFilters {
-    async show() {
-        this.queryPosts();
-        this.addDateFilter();
+class Posts {
+    load() {
+        new Filters().show();
+        new Data().get();
     }
 
-    addDateFilter() {
+    create() {
+        new Create().init();
+    }
+
+    async publish() {
+        const post = new Validate().init();
+        const result = await new ApiService().post('/posts', post, { hasImage: true, headers: {} })
+        if (!result.ok) {
+            console.warn("Oops! Post didn't upload correctly");
+            return false;
+        } else {
+            this.load();
+            return true;
+        }
+    }
+}
+
+class Filters {
+    show() {
+        this.showDateFilter();
+    }
+
+    showDateFilter() {
         const filterContainer = document.getElementById('filter');
         const filter = document.createElement('div');
         filter.classList.add('date-filter')
@@ -23,7 +47,7 @@ class PostFilters {
         resetBtn.appendChild(img);
         resetBtn.addEventListener('click', async () => {
             resetFilter();
-            await this.queryPosts();
+            await new Data().get();
         });
         filter.appendChild(resetBtn);
 
@@ -35,15 +59,18 @@ class PostFilters {
             btn.addEventListener('click', async (e) => {
                 resetFilter();
                 e.currentTarget.classList.add('selected');
-                await this.queryPosts(f);
+                await new Data().get(f);
             })
             filter.appendChild(btn);
-        })
+        });
 
-        filterContainer.appendChild(filter);
+        filterContainer.replaceChildren(filter);
     }
 
-    async queryPosts(filter) {
+}
+
+class Data {
+    async get(filter) {
         const parseResult = (posts) => posts?.length ? posts : [];
 
         const params = new URLSearchParams();
@@ -52,7 +79,7 @@ class PostFilters {
         }
 
         const result = parseResult(await new ApiService().get(`/posts?${params}`));
-        new PostAction().do('view', result);
+        new View().init(result);
     }
 }
 
@@ -63,4 +90,21 @@ const filters = [
     { value: 'last-y', label: 'This Year', urlParamKey: 'within' },
 ]
 
-export default PostFilters;
+export const Category = {
+    rsh: 'Relationship',
+    mny: 'Money',
+    hlt: 'Health',
+    wrk: 'Work',
+    slf: 'Self',
+    lex: 'Life & Experiences'
+}
+
+export class Post {
+    added_by = undefined;
+    photo = null;
+    caption = '';
+    category = null;
+    is_pvt = null;
+}
+
+export default Posts;

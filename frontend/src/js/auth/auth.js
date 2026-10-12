@@ -1,7 +1,7 @@
-import ApiService from "./api.js";
+import ApiService from "../data/api-service.js";
 import Login from "./login.js";
 import Signup from "./signup.js";
-import BrowserStorage from "./storage.js";
+import BrowserStorage from "../data/browser-storage.js";
 
 class Auth {
     #authToken = null;
@@ -82,6 +82,11 @@ class Auth {
         BrowserStorage.clear();
         return false;
     }
+}
+
+export class User {
+    username = '';
+    password = '';
 }
 
 export default Auth;

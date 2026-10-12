@@ -1,5 +1,5 @@
-import Util from "./utility.js";
-import { DOMAIN_URL } from "./api.js";
+import Util from "../../utils/date-utils.js";
+import { DOMAIN_URL } from "../../data/api-service.js";
 
 class ShowPostCard {
     static #assetsEndpoint = '/assets/images/';

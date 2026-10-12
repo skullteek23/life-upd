@@ -1,4 +1,4 @@
-import BrowserStorage from "./storage.js";
+import BrowserStorage from "./browser-storage.js";
 
 export const DOMAIN_URL = 'http://localhost:3000';
 

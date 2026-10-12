@@ -1,4 +1,4 @@
-import Card from "./card.js";
+import Card from "../components/cards/card-factory.js";
 
 class View {
     async init(data) {

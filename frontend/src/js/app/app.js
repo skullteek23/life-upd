@@ -1,5 +1,5 @@
 import Handler from './handler.js';
-import Auth from './auth.js';
+import Auth from '../auth/auth.js';
 
 class App {
     async init() {

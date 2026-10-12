@@ -1,5 +1,5 @@
-import Card from "./card.js";
-import { User } from "./models.js";
+import Card from "../components/cards/card-factory.js";
+import { User } from "./auth.js";
 
 class Login {
     show() {

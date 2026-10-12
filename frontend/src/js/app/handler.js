@@ -1,4 +1,4 @@
-import Posts from './posts.js';
+import Posts from '../posts/post-service.js';
 
 const LABELS = {
     add: '+ Add',
