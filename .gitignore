@@ -1,6 +1,13 @@
-node_modules/
-dist/
-.env
+# Frontend related
+frontend/node_modules/*
+frontend/dist
+
+# Backend related
+backend/node_modules/*
+backend/public/uploads/*
+backend/dist/*
+backend/.env
+
+# Global Files
 settings.json
 **/.DS_Store
-uploads/*
