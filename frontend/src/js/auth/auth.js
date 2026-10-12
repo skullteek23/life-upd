@@ -1,7 +1,6 @@
-import ApiService from "../data/api-service.js";
-import Login from "./login.js";
-import Signup from "./signup.js";
 import BrowserStorage from "../data/browser-storage.js";
+import AuthServer from "./auth-server.js";
+import AuthInput from "./input.js";
 
 class Auth {
     #authToken = null;
@@ -21,9 +20,17 @@ class Auth {
         const form = document.getElementById('auth-form');
         switch (form.dataset.authType) {
             case 'login':
-                return await this.login();
+                const loginResult = await new AuthServer().login();
+                if (loginResult) {
+                    this.#setAuth();
+                }
+                return loginResult;
             case 'signup':
-                return await this.signup();
+                const signupResult = await new AuthServer().signup();
+                if (signupResult) {
+                    this.#setAuth();
+                }
+                return signupResult;
             default:
                 console.log('no case matched!');
                 break;
@@ -31,24 +38,24 @@ class Auth {
     }
 
     openLoginInput() {
-        new Login().show();
-        this.addAnchorListener('signup');
+        new AuthInput('login');
+        this.addAnchorListener('login');
     }
 
-    addAnchorListener(action) {
+    addAnchorListener(currentScreen) {
         const anchor = document.getElementById('auth-action');
         anchor.addEventListener('click', () => {
-            if (action === 'login') {
+            if (currentScreen === 'signup') {
                 this.openLoginInput();
-            } else if (action === 'signup') {
+            } else if (currentScreen === 'login') {
                 this.openSignupInput();
             }
         })
     }
 
     openSignupInput() {
-        new Signup().show();
-        this.addAnchorListener('login');
+        new AuthInput('signup');
+        this.addAnchorListener('signup');
     }
 
     isLoggedIn() {
@@ -57,30 +64,6 @@ class Auth {
 
     logout() {
         BrowserStorage.clear();
-    }
-
-    async login() {
-        const { username, password } = new Login().getInput();
-        const result = await (new ApiService().post('/auth/login', { username, password }).then(response => response.json()))
-        if (result['token']) {
-            BrowserStorage.save('token', result['token']);
-            this.#setAuth();
-            return true;
-        }
-        BrowserStorage.clear();
-        return false;
-    }
-
-    async signup() {
-        const { username, password } = new Signup().getInput();
-        const result = await (new ApiService().post('/auth/signup', { username, password }).then(response => response.json()))
-        if (result['token']) {
-            BrowserStorage.save('token', result['token']);
-            this.#setAuth();
-            return true;
-        }
-        BrowserStorage.clear();
-        return false;
     }
 }
 

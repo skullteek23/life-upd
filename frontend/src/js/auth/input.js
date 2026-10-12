@@ -1,17 +1,17 @@
-import Card from "../components/cards/card-factory.js";
-import { User } from "./auth.js";
+import Card from "../components/cards/card-factory";
+import { User } from "./auth";
 
-class Login {
-    show() {
+class AuthInput {
+    constructor(inputType) {
         const list = document.getElementById('posts');
         const newListItem = document.createElement('li');
 
-        newListItem.appendChild(new Card().get('login'));
+        newListItem.appendChild(new Card().get(inputType));
         list.replaceChildren();
         list.appendChild(newListItem);
     }
 
-    getInput() {
+    static getInput() {
         const form = document.getElementById('auth-form');
         const values = Object.fromEntries(new FormData(form));
         const user = new User();
@@ -21,7 +21,6 @@ class Login {
         }
         return user;
     }
-
-
 }
-export default Login;
+
+export default AuthInput;
