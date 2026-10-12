@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto';
 import { addPost, queryPosts } from "./posts.repository";
-import { Category, ERROR_CODES, IPost, ImageFile, PostFilters } from "./posts.type";
+import { Category, IPost, ImageFile, PostFilters } from "./posts.type";
 import { processImage } from 'src/utils/img-processing';
-import { IStatus } from 'src/utils/models';
+import { POST_ERRORS } from 'src/utils/constants';
 
 export const MAX_INPUT_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
 export const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heif', 'image/heic'];
@@ -17,44 +17,36 @@ export async function getPosts(queryParams: any): Promise<IPost[]> {
     return sortPosts(posts);
 }
 
-export async function uploadPost(data: Partial<IPost>, file: any, userId: number): Promise<IStatus> {
-    const status: IStatus = { error: '', response: null };
-
-    status.error = !data || !userId || !file || !isFileValid(file) || !isBodyValid(data) ? 'Invalid payload' : '';
-    if (status.error) {
-        return status;
+export async function uploadPost(data: Partial<IPost>, file: any, userId: number): Promise<void> {
+    if (!data || !userId || !file || !isFileValid(file) || !isBodyValid(data)) {
+        throw new Error(POST_ERRORS.invalidPayload);
     }
 
     data.added_by = userId;
 
     const fileName = `${randomUUID()}.jpg`;
     const fileBuffer = (file as ImageFile).buffer;
-    status.error = !fileName ? 'Invalid file name' : '';
-    if (status.error) {
-        return status;
+    if (!fileName) {
+        throw new Error(POST_ERRORS.invalidFile);
     }
 
     try {
         const publicUrl = await processImage(fileBuffer, fileName);
         data.img_url = (typeof publicUrl === 'string' && publicUrl?.length) ? publicUrl : '';
     } catch (error) {
-        if (error instanceof Error && error.message === ERROR_CODES.compressionAborted) {
-            status.error = 'Try with another image';
+        if (error instanceof Error && error.message === POST_ERRORS.compressionAborted) {
+            throw new Error(POST_ERRORS.imageNotSupport);
         } else {
-            status.error = ERROR_CODES.imageProcessingError;
+            throw new Error(POST_ERRORS.imageNotProcessable);
         }
-    }
-    if (status.error) {
-        return status;
     }
 
     try {
         await addPost(data);
-        status.error = '';
+        return;
     } catch (error) {
-        status.error = 'Post upload error';
+        throw new Error(POST_ERRORS.uploadFailed);
     }
-    return status;
 }
 
 function sortPosts(data: IPost[]): IPost[] {

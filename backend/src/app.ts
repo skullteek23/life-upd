@@ -4,7 +4,7 @@ import cors from 'cors';
 import postRouter from './features/posts/posts.route';
 import authRouter from './features/auth/auth.route';
 import { checkToken } from '@middleware/auth.middleware';
-import { handleError } from '@middleware/error.middleware';
+// import { handleError } from '@middleware/error.middleware';
 
 const app = express();
 
@@ -17,6 +17,6 @@ app.use('/auth', authRouter);
 app.use(checkToken);
 app.use('/posts', postRouter);
 
-app.use(handleError)
+// app.use(handleError)
 
 export default app;

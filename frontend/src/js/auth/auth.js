@@ -1,5 +1,5 @@
 import BrowserStorage from "../data/browser-storage.js";
-import AuthServer from "./auth-server.js";
+import AuthServer from "./action.js";
 import AuthInput from "./input.js";
 
 class Auth {

@@ -1,4 +1,4 @@
-import AuthInput from "./input";
+import AuthInput from "./input.js";
 import ApiService from "../data/api-service.js";
 import BrowserStorage from "../data/browser-storage.js";
 

@@ -109,7 +109,7 @@ class Data {
 
     async set(data) {
         const result = await new ApiService().post('/posts', data, { hasImage: true, headers: {} })
-        if (!result.ok) {
+        if (!result || !result.ok) {
             console.warn("Oops! Post didn't upload correctly");
             return false;
         }

@@ -18,11 +18,6 @@ export enum Category {
 
 export type ImageFile = Express.Multer.File;
 
-export const ERROR_CODES = {
-    imageProcessingError: 'Image processing error',
-    compressionAborted: 'COMPRESSION ABORTED'
-}
-
 export interface PostFilters {
     within: string;
     typeOf: string;

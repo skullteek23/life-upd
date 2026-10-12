@@ -1,11 +1,11 @@
 import jsonwebtoken, { decode } from "jsonwebtoken";
+import { AUTH_ERRORS } from "./constants";
 
 export function getToken(data: any): string {
     try {
         return jsonwebtoken.sign(data, getSecret());
     } catch (error) {
-        console.log('Error getting token: ', error);
-        return '';
+        throw new Error(AUTH_ERRORS.tokenFailure)
     }
 }
 

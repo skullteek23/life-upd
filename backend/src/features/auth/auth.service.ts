@@ -1,22 +1,19 @@
 import { getToken } from "../../utils/jwt";
 import { compare, toHash } from "../../utils/password";
-import { IStatus } from "../../utils/models";
 import { addUser, findUserByUsername } from "../users/users.repository";
 import { IUser } from "../users/users.type";
 import { ILoginData } from "./auth.type";
+import { AUTH_ERRORS } from 'src/utils/constants';
 
-export async function signupWithUsername(loginData: ILoginData): Promise<IStatus> {
+export async function signupWithUsername(loginData: ILoginData): Promise<string> {
     const { username, password } = loginData;
-    const status: IStatus = { error: '', response: null };
 
-    status.error = isUsernameValid(username) && isPasswordValid(password) ? '' : 'username/password invalid';
-    if (status.error) {
-        return status;
+    if (!isUsernameValid(username) || isPasswordValid(password)) {
+        throw new Error(AUTH_ERRORS.badFormat);
     }
 
-    status.error = await isUsernameUnique(username) ? '' : 'duplicate username';
-    if (status.error) {
-        return status;
+    if (!await isUsernameUnique(username)) {
+        throw new Error(AUTH_ERRORS.usernameDuplicate);
     }
 
     let userID;
@@ -26,49 +23,38 @@ export async function signupWithUsername(loginData: ILoginData): Promise<IStatus
         const user = await addUser({ username, password_hash });
         userID = user.rows[0].id;
     } catch (error) {
-        status.error = String(error);
-    }
-    if (status.error) {
-        return status;
+        throw new Error(AUTH_ERRORS.signupServerFailure);
     }
 
-    // ONLY SUCCESS CASE
     const token = getToken(userID);
-    status.response = token;
-    return status;
+    return token;
 }
 
-export async function loginWithUsername(loginData: ILoginData): Promise<IStatus> {
-    const { username, password: input } = loginData;
-    const status: IStatus = { error: '', response: null };
+export async function loginWithUsername(loginData: ILoginData): Promise<string> {
+    const { username, password } = loginData;
 
-    status.error = isUsernameValid(username) && isPasswordValid(input) ? '' : 'username/password invalid';
-    if (status.error) {
-        return status;
+    if (!isUsernameValid(username) || isPasswordValid(password)) {
+        throw new Error(AUTH_ERRORS.badFormat);
     }
 
     let queryResult;
     try {
         queryResult = await findUserByUsername(username);
-        status.error = queryResult?.rows.length !== 1 ? `user doesn't exist` : '';
-    } catch (error) {
-        status.error = String(error);
-    }
-    if (status.error) {
-        return status;
+        if (queryResult?.rows.length !== 1) {
+            throw new Error(AUTH_ERRORS.userNotExist);
+        }
+    } catch (error: any) {
+        throw new Error(error.message);
     }
 
     const user: IUser = queryResult?.rows[0];
     const storedHashPass = user?.password_hash;
-    status.error = !await compare(input, storedHashPass) ? 'username/password incorrect' : '';
-    if (status.error) {
-        return status;
+    if (!await compare(password, storedHashPass)) {
+        throw new Error(AUTH_ERRORS.passwordIncorrect);
     }
 
-    // ONLY SUCCESS CASE
     const token = getToken(user.id);
-    status.response = token;
-    return status;
+    return token;
 }
 
 function isUsernameValid(value: string): boolean {
@@ -93,6 +79,10 @@ function getUsernameRegex() {
 }
 
 async function isUsernameUnique(value: string): Promise<boolean> {
-    const result = await findUserByUsername(value);
-    return result.rowCount !== null && result.rowCount === 0;
+    try {
+        const result = await findUserByUsername(value);
+        return result.rowCount !== null && result.rowCount === 0;
+    } catch (error) {
+        throw new Error(AUTH_ERRORS.duplicateCheckFailed);
+    }
 }

@@ -1,7 +1,7 @@
 import fs from 'fs/promises';
 import sharp from 'sharp';
 import path from 'path';
-import { ERROR_CODES } from '../features/posts/posts.type';
+import { POST_ERRORS } from './constants';
 
 const MAX_OUTPUT_FILE_SIZE = 1 * 100 * 1024; // 1 MB
 const MAX_WIDTH = 700;
@@ -57,7 +57,7 @@ export async function processImage(input: Buffer, name: string): Promise<string>
         }
     }
 
-    throw new Error(ERROR_CODES.imageProcessingError);
+    throw new Error(POST_ERRORS.imageNotCompressible);
 }
 
 export async function saveImage(filename: string, image: Buffer<ArrayBuffer> | Buffer) {
