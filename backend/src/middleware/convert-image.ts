@@ -1,7 +1,7 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { isFileValid } from 'src/features/posts/posts.service';
 import convert from 'heic-convert';
-import { HEIC_ERRORS } from './auth-error.middleware';
+import { HEIC_ERRORS } from 'src/utils/constants';
 
 export const HEIC_TYPES = ['image/heif', 'image/heic'];
 

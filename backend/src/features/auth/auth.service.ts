@@ -8,7 +8,7 @@ import { AUTH_ERRORS } from 'src/utils/constants';
 export async function signupWithUsername(loginData: ILoginData): Promise<string> {
     const { username, password } = loginData;
 
-    if (!isUsernameValid(username) || isPasswordValid(password)) {
+    if (!isUsernameValid(username) || !isPasswordValid(password)) {
         throw new Error(AUTH_ERRORS.badFormat);
     }
 
@@ -33,7 +33,7 @@ export async function signupWithUsername(loginData: ILoginData): Promise<string>
 export async function loginWithUsername(loginData: ILoginData): Promise<string> {
     const { username, password } = loginData;
 
-    if (!isUsernameValid(username) || isPasswordValid(password)) {
+    if (!isUsernameValid(username) || !isPasswordValid(password)) {
         throw new Error(AUTH_ERRORS.badFormat);
     }
 

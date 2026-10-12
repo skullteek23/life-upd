@@ -2,7 +2,7 @@
 import multer from 'multer';
 import { type Request, type Response, type NextFunction } from 'express';
 import { allowedTypes, MAX_INPUT_FILE_SIZE } from 'src/features/posts/posts.service';
-import { MULTER_ERRORS } from './auth-error.middleware';
+import { MULTER_ERRORS } from 'src/utils/constants';
 
 const storage = multer.memoryStorage();
 const capture = multer({
