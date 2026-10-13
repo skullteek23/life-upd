@@ -3,13 +3,14 @@ import path from 'path';
 import cors from 'cors';
 import postRouter from './features/posts/posts.route';
 import authRouter from './features/auth/auth.route';
-import { checkToken } from '@middleware/token-check.middleware';
 import { type Request, type Response } from 'express';
 import packageJson from '../package.json';
 
+const FRONTEND_URL = String(process.env.FRONTEND_URL) || 'http://localhost:4200';
+
 const app = express();
 
-app.use(cors({ origin: 'http://localhost:4200' }));
+app.use(cors({ origin: FRONTEND_URL }));
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public', 'uploads')));
 
