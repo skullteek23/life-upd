@@ -1,7 +1,7 @@
 
 import multer from 'multer';
 import { type Request, type Response, type NextFunction } from 'express';
-import { allowedTypes, MAX_INPUT_FILE_SIZE } from 'src/features/posts/posts.service';
+import { allowedTypes, MAX_INPUT_FILE_SIZE } from '@features/posts/posts.service';
 import { MULTER_ERRORS } from '@utils/constants';
 
 const storage = multer.memoryStorage();
