@@ -9,16 +9,13 @@
     "esModuleInterop": true,
     "skipLibCheck": true,
     "ignoreDeprecations": "6.0",
-    "baseUrl": ".",
     "paths": {
       "@middleware/*": [
-        "src/middleware/*"
+        "./src/middleware/*"
       ]
     }
   },
   "include": [
-    "src",
-    "frontend/assets/js",
-    "frontend/assets/js/index.js"
+    "src"
   ]
 }
