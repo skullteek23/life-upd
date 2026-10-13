@@ -25,6 +25,7 @@ export const AUTH_ERRORS = {
     userNotExist: `user doesn't exist`,
     passwordIncorrect: 'incorrect password',
     tokenFailure: 'Unable to generate token',
+    unauthorizedAccess: 'Unauthorized access',
     signupServerFailure: 'Adding user to server failed',
     loginFailure: 'Login failed',
     signupFailure: 'Signup failed',

@@ -4,6 +4,8 @@ import cors from 'cors';
 import postRouter from './features/posts/posts.route';
 import authRouter from './features/auth/auth.route';
 import { checkToken } from '@middleware/token-check.middleware';
+import { type Request, type Response } from 'express';
+import packageJson from '../package.json';
 
 const app = express();
 
@@ -12,8 +14,12 @@ app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public', 'uploads')));
 
 app.use('/auth', authRouter);
-
-app.use(checkToken);
 app.use('/posts', postRouter);
+app.use('/health', (req: Request, res: Response) => {
+    res.json({
+        status: 'ok',
+        version: packageJson.version
+    });
+})
 
 export default app;

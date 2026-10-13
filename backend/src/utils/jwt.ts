@@ -17,8 +17,7 @@ export function verifyToken(token: string): boolean {
         }
         return false;
     } catch (error) {
-        console.log('Error verifying token: ', error);
-        return false;
+        throw new Error(AUTH_ERRORS.unauthorizedAccess);
     }
 }
 
