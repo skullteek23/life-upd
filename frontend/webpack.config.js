@@ -44,6 +44,11 @@ module.exports = {
         }),
         new webpack.DefinePlugin({
             APP_VERSION: JSON.stringify(frontendPackage.version)
+        }),
+        new webpack.DefinePlugin({
+            'process.env.API_BASE_URL': JSON.stringify(
+                process.env.API_BASE_URL || 'http://localhost:3000'
+            )
         })
     ]
 };
