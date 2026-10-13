@@ -1,6 +1,7 @@
 const path = require('path');
 const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
 const frontendPackage = require('./package.json');
 
 module.exports = {
@@ -49,6 +50,14 @@ module.exports = {
             'process.env.API_BASE_URL': JSON.stringify(
                 process.env.API_BASE_URL || 'http://localhost:3000'
             )
+        }),
+        new CopyWebpackPlugin({
+            patterns: [
+                {
+                    from: path.resolve(__dirname, 'public'),
+                    to: '.'
+                }
+            ]
         })
     ]
 };
