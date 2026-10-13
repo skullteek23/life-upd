@@ -1,5 +1,7 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const frontendPackage = require('./package.json');
 
 module.exports = {
     mode: 'development',
@@ -39,6 +41,9 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             template: './src/index.html'
+        }),
+        new webpack.DefinePlugin({
+            APP_VERSION: JSON.stringify(frontendPackage.version)
         })
     ]
 };
