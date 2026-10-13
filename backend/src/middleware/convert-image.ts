@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { isFileValid } from 'src/features/posts/posts.service';
+import { isFileValid } from '@features/posts/posts.service';
 import convert from 'heic-convert';
 import { HEIC_ERRORS } from '@utils/constants';
 
