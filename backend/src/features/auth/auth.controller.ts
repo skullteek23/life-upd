@@ -1,6 +1,6 @@
 import { type Request, type Response } from 'express';
 import { signupWithUsername, loginWithUsername } from './auth.service';
-import { AUTH_ERRORS } from 'src/utils/constants';
+import { AUTH_ERRORS } from '@utils/constants';
 
 export async function handleLogin(req: Request, res: Response) {
     const body = req.body;

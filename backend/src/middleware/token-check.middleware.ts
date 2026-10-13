@@ -1,6 +1,6 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { decodeToken, verifyToken } from '../utils/jwt';
-import { AUTH_ERRORS } from 'src/utils/constants';
+import { AUTH_ERRORS } from '@utils/constants';
 
 export function checkToken() {
     return (req: Request, res: Response, next: NextFunction) => {
