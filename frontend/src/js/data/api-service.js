@@ -1,6 +1,7 @@
 import BrowserStorage from "./browser-storage.js";
+import { API_BASE_URL } from "../../../config.js";
 
-export const DOMAIN_URL = 'http://localhost:3000';
+export const DOMAIN_URL = API_BASE_URL;
 
 class ApiService {
     #authHeaderKey = 'token';
