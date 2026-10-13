@@ -2,7 +2,7 @@ import { type Request, type Response } from 'express';
 import {
     getPosts, uploadPost
 } from './posts.service';
-import { POST_ERRORS } from 'src/utils/constants';
+import { POST_ERRORS } from '@utils/constants';
 
 export async function handleGet(req: Request, res: Response) {
     const userId = req.user?.userId || 0;

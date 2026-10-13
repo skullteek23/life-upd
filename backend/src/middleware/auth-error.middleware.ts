@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { AUTH_ERRORS } from 'src/utils/constants';
+import { AUTH_ERRORS } from '@utils/constants';
 
 export function handleAuthError() {
     return (err: any, req: Request, res: Response, next: NextFunction) => {

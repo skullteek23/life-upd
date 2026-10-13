@@ -1,8 +1,8 @@
 import { randomUUID } from 'crypto';
 import { addPost, queryPosts } from "./posts.repository";
 import { Category, IPost, ImageFile, PostFilters } from "./posts.type";
-import { processImage } from 'src/utils/img-processing';
-import { POST_ERRORS } from 'src/utils/constants';
+import { processImage } from '@utils/img-processing';
+import { POST_ERRORS } from '@utils/constants';
 
 export const MAX_INPUT_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
 export const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heif', 'image/heic'];

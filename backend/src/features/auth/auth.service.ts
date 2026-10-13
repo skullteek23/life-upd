@@ -3,7 +3,7 @@ import { compare, toHash } from "../../utils/password";
 import { addUser, findUserByUsername } from "../users/users.repository";
 import { IUser } from "../users/users.type";
 import { ILoginData } from "./auth.type";
-import { AUTH_ERRORS } from 'src/utils/constants';
+import { AUTH_ERRORS } from '@utils/constants';
 
 export async function signupWithUsername(loginData: ILoginData): Promise<string> {
     const { username, password } = loginData;

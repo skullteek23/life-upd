@@ -1,5 +1,5 @@
 import { type Request, type Response, type NextFunction } from 'express';
-import { POST_ERRORS, MULTER_ERRORS, HEIC_ERRORS } from 'src/utils/constants';
+import { POST_ERRORS, MULTER_ERRORS, HEIC_ERRORS } from '@utils/constants';
 
 export function handlePostError() {
     return (err: any, req: Request, res: Response, next: NextFunction) => {

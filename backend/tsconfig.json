@@ -12,6 +12,9 @@
     "paths": {
       "@middleware/*": [
         "./src/middleware/*"
+      ],
+      "@utils/*": [
+        "./src/utils/*"
       ]
     }
   },
