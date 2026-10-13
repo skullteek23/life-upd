@@ -5,7 +5,7 @@
   "scripts": {
     "dev:server": "tsx watch src/server.ts",
     "dev": "npm run dev:server",
-    "build": "tsc",
+    "build": "tsc && tsc-alias",
     "start": "node dist/server.js"
   },
   "keywords": [],
@@ -36,6 +36,7 @@
     "@types/node": "^26.6.2",
     "@types/pg": "^8.23.1",
     "concurrently": "^10.0.5",
+    "tsc-alias": "^1.9.7",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   }
