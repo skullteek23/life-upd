@@ -28,7 +28,7 @@ export function getUrl(filename: string): string {
     } else {
         const port = process.env.PORT;
         const localUrl = 'http://localhost:' + port;
-        return localUrl + filename;
+        return `${localUrl}/${filename} `;
     }
 }
 
