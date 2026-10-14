@@ -1,19 +1,13 @@
-import fs from 'fs/promises';
+
 import sharp from 'sharp';
-import path from 'path';
 import { POST_ERRORS } from './constants';
+import { saveImage } from './storage';
 
 const MAX_OUTPUT_FILE_SIZE = 1 * 100 * 1024; // 1 MB
 const MAX_WIDTH = 700;
 const MAX_HEIGHT = 1000;
 
-const UPLOAD_DIR = path.join(
-    process.cwd(),
-    'public',
-    'uploads',
-);
-
-export async function processImage(input: Buffer, name: string): Promise<string> {
+export async function processImage(input: Buffer, name: string): Promise<void> {
     // Small images: process once without the compression loop
     if (input.length <= MAX_OUTPUT_FILE_SIZE) {
         const output = await sharp(input)
@@ -21,7 +15,8 @@ export async function processImage(input: Buffer, name: string): Promise<string>
             .jpeg({ quality: 90 })
             .toBuffer();
 
-        return saveImage(name, output);
+        await saveImage(output, name);
+        return;
     }
 
     // Large images: process until max allowed size is reached the compression loop
@@ -43,7 +38,8 @@ export async function processImage(input: Buffer, name: string): Promise<string>
             .toBuffer();
 
         if (output.length <= MAX_OUTPUT_FILE_SIZE) {
-            return saveImage(name, output);
+            await saveImage(output, name);
+            return;
         }
 
         // First try reducing quality
@@ -60,11 +56,3 @@ export async function processImage(input: Buffer, name: string): Promise<string>
     throw new Error(POST_ERRORS.imageNotCompressible);
 }
 
-export async function saveImage(filename: string, image: Buffer<ArrayBuffer> | Buffer) {
-    await fs.mkdir(UPLOAD_DIR, { recursive: true });
-
-    await fs.writeFile(path.join(UPLOAD_DIR, filename), image);
-
-    // URL that can be stored in PostgreSQL
-    return filename;
-}

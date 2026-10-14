@@ -4,7 +4,7 @@ export const POST_ERRORS = {
     imageNotSupport: 'Try with another image',
     imageNotProcessable: 'Image processing error',
     imageNotCompressible: 'Image compressing limit reached',
-    uploadFailed: 'Upload failed',
+    uploadFailed: 'Image Upload failed',
     compressionAborted: 'Compression aborted'
 }
 
