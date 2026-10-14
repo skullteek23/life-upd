@@ -13,8 +13,6 @@ export async function saveImage(file: Buffer<ArrayBuffer> | Buffer, path: string
         if (error) {
             throw new Error(POST_ERRORS.uploadFailed);
         } else {
-            // Handle success
-            console.log(data);
             return data;
         }
     } else {
