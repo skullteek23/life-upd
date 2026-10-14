@@ -26,7 +26,9 @@ export function getUrl(filename: string): string {
         const result = supabase().storage.from(BUCKET).getPublicUrl(filename);
         return result?.data?.publicUrl || '';
     } else {
-        return filename;
+        const port = process.env.PORT;
+        const localUrl = 'http://localhost:' + port;
+        return localUrl + filename;
     }
 }
 
