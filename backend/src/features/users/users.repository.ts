@@ -1,6 +1,6 @@
 import { QueryResult } from "pg";
 
-import pool from "../../db/postgres";
+import pool from "../../utils/postgres";
 import { IUser } from "./users.type";
 import { IQuery } from "../../utils/models";
 

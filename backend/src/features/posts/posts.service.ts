@@ -3,6 +3,7 @@ import { addPost, queryPosts } from "./posts.repository";
 import { Category, IPost, ImageFile, PostFilters } from "./posts.type";
 import { processImage } from '@utils/img-processing';
 import { POST_ERRORS } from '@utils/constants';
+import { getUrl } from '@utils/storage';
 
 export const MAX_INPUT_FILE_SIZE = 20 * 1024 * 1024; // 20 MB
 export const allowedTypes = ['image/jpeg', 'image/jpg', 'image/png', 'image/heif', 'image/heic'];
@@ -31,8 +32,11 @@ export async function uploadPost(data: Partial<IPost>, file: any, userId: number
     }
 
     try {
-        const publicUrl = await processImage(fileBuffer, fileName);
-        data.img_url = (typeof publicUrl === 'string' && publicUrl?.length) ? publicUrl : '';
+        await processImage(fileBuffer, fileName);
+        const publicUrl = getUrl(fileName);
+        if (publicUrl) {
+            data.img_url = publicUrl;
+        }
     } catch (error) {
         if (error instanceof Error && error.message === POST_ERRORS.compressionAborted) {
             throw new Error(POST_ERRORS.imageNotSupport);

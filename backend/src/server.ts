@@ -1,6 +1,6 @@
 import 'dotenv/config';
 import app from "./app"
-import pool from './db/postgres';
+import pool from './utils/postgres';
 
 const PORT = Number(process.env.PORT) || 2000;
 
