@@ -1,0 +1,15 @@
+# Frontend related
+frontend/node_modules/*
+frontend/dist
+
+# Backend related
+backend/node_modules/*
+backend/public/uploads/*
+backend/dist/*
+backend/.env
+backend/environments/.env.dev
+backend/environments/.env.prod
+
+# Global Files
+settings.json
+**/.DS_Store
