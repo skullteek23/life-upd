@@ -1,6 +1,6 @@
 # Frontend related
-frontend/node_modules/*
-frontend/dist
+frontend-js/node_modules/*
+frontend-js/dist
 
 # Backend related
 backend/node_modules/*

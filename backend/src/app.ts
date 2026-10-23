@@ -6,11 +6,13 @@ import authRouter from './features/auth/auth.route';
 import { type Request, type Response } from 'express';
 import packageJson from '../package.json';
 
-const FRONTEND_URL = String(process.env.FRONTEND_URL) || 'http://localhost:4200';
+const FRONTEND_URLS = (process.env.FRONTEND_URL || 'http://localhost:4200')
+    .split(',')
+    .map((origin) => origin.trim());
 
 const app = express();
 
-app.use(cors({ origin: FRONTEND_URL }));
+app.use(cors({ origin: FRONTEND_URLS }));
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public', 'uploads')));
 
