@@ -1,28 +1,30 @@
 import { useEffect, useState } from 'react';
 import type { Post as PostType } from '../models/post';
-import ApiCore from '../utils/api';
 import Post from './Post';
 import Filters from './Filters';
+import { get } from '../services/posts.services';
+import { useOutletContext } from 'react-router';
+import type { ActionOutletContext } from '../utils/actions';
 
 function Feed() {
   const [feed, setFeed] = useState<PostType[]>([]);
-  useEffect(() => {
-    ApiCore.get('/posts').then((response: PostType[]) => {
-      if (response) {
-        updateFeed(response);
-      }
-    });
-  }, []);
+  const [dateFilter, setDateFilter] = useState<string>('');
+  const { refresh } = useOutletContext<ActionOutletContext>();
+  const [isRefresh, _setIsRefresh] = refresh;
 
-  const updateFeed = (value: PostType[]) => {
-    const newFeed = [...feed, ...value];
-    setFeed(newFeed);
+  useEffect(() => {
+    get(dateFilter).then((response: PostType[]) => {
+      setFeed([...(response || [])]);
+    });
+  }, [dateFilter, isRefresh]);
+
+  const changeFilter = (params: string) => {
+    setDateFilter(params);
   };
 
   return (
     <section className="feed">
-      <div className="filter" id="filter"></div>
-      <Filters></Filters>
+      <Filters data={changeFilter}></Filters>
       <ul id="posts">
         {feed.map((item) => (
           <li key={item.id}>

@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router';
 
-function LoginButton(props: {}) {
+function LoginButton() {
   return (
     <Link to="/login">
       <button className="primary-btn action-btn" id="action-btn">

@@ -1,7 +1,6 @@
-import React from 'react';
 import { Link } from 'react-router';
 
-function AddPostButton(props: {}) {
+function AddPostButton() {
   return (
     <Link to="/add">
       <button className="primary-btn action-btn" id="action-btn">

@@ -1,8 +1,8 @@
-import React from 'react';
+import type { IAction } from '../../utils/actions';
 
-function PublishButton(props: {}) {
+function PublishButton(props: IAction) {
   return (
-    <button className="primary-btn action-btn" id="action-btn">
+    <button className="primary-btn action-btn" id="action-btn" onClick={props.action}>
       Publish
     </button>
   );

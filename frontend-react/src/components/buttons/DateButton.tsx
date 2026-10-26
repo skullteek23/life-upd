@@ -1,8 +1,12 @@
-import React from 'react';
+import type { IAction } from '../../utils/actions';
 
-function DateButton(props: { label: string }) {
+interface IDateAction extends IAction {
+  label: string;
+}
+
+function DateButton(props: IDateAction) {
   return (
-    <button className="selectable-btn" type="button">
+    <button className="selectable-btn" type="button" onClick={props.action}>
       {props.label}
     </button>
   );

@@ -1,8 +1,8 @@
-import React from 'react';
+import type { IAction } from '../../utils/actions';
 
-function ContinueButton(props: {}) {
+function ContinueButton(props: IAction) {
   return (
-    <button className="primary-btn action-btn" id="action-btn">
+    <button className="primary-btn action-btn" id="action-btn" onClick={props.action}>
       Continue
     </button>
   );

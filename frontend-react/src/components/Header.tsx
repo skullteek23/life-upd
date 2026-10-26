@@ -1,29 +1,47 @@
 import { Link, useLocation } from 'react-router';
+
 import AddPostButton from './buttons/AddPostButton';
 import ContinueButton from './buttons/ContinueButton';
 import LoginButton from './buttons/LoginButton';
 import LogoutButton from './buttons/LogoutButton';
 import PublishButton from './buttons/PublishButton';
-import { useContext } from 'react';
-import AuthContext from './Auth';
+import { useAuth } from './Auth';
+import type { IAction } from '../utils/actions';
 
-function Header() {
+interface IHeaderAction extends IAction {
+  isRefresh: () => void;
+}
+
+function Header(props: IHeaderAction) {
   const currentPath = useLocation().pathname;
-  const isLoggedIn = useContext(AuthContext);
+  const { isLogged, logout } = useAuth();
+  const handleLogout = () => {
+    logout();
+    props.isRefresh();
+  };
+
   return (
     <header>
       <Link to="/" className="main-header-title">
         Life Updates
       </Link>
-      {isLoggedIn ? (
+      {isLogged ? (
         <>
+          {/* Navigates to a page */}
           {currentPath === '/' && <AddPostButton></AddPostButton>}
-          {currentPath === '/add' && <PublishButton></PublishButton>}
-          <LogoutButton></LogoutButton>
+
+          {/* Submit a form */}
+          {currentPath === '/add' && <PublishButton action={props.action}></PublishButton>}
+
+          {/* Logs out the current user */}
+          <LogoutButton action={handleLogout}></LogoutButton>
         </>
       ) : (
         <>
-          {(currentPath === '/login' || currentPath === '/signup') && <ContinueButton></ContinueButton>}
+          {/* Submit a form */}
+          {(currentPath === '/login' || currentPath === '/signup') && <ContinueButton action={props.action}></ContinueButton>}
+
+          {/* Navigates to a page */}
           {currentPath === '/' && <LoginButton></LoginButton>}
         </>
       )}

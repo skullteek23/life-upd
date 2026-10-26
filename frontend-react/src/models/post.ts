@@ -13,6 +13,13 @@ export class Post {
     created_at = '';
     img_url = '';
     caption = '';
-    category = null;
-    is_pvt = null;
+    category = '';
+    is_pvt = 0;
+}
+
+export class PostPayload {
+    caption = '';
+    is_pvt = 0;
+    photo = null;
+    category = ''
 }

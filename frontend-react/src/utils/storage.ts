@@ -6,9 +6,17 @@ class BrowserStorage {
     static get(key: string) {
         const value = localStorage.getItem(key);
         if (value != null) {
-            return JSON.parse(value);
+            try {
+                return JSON.parse(value);
+            } catch (error) {
+                return null;
+            }
         }
         return null;
+    }
+
+    static remove(key: string) {
+        localStorage.removeItem(key);
     }
 
     static clear() {

@@ -1,3 +1,4 @@
+import { AUTH_STORAGE_KEY } from "../components/Auth.js";
 import BrowserStorage from "./storage.js";
 
 class ApiCore {
@@ -5,7 +6,7 @@ class ApiCore {
     static #domain = import.meta.env.VITE_API_BASE_URL;
 
     static get(url: string, options: any = {}): Promise<any> {
-        const token = BrowserStorage.get('token');
+        const token = BrowserStorage.get(AUTH_STORAGE_KEY);
         const opts = {
             method: 'GET',
             headers: {
@@ -15,11 +16,11 @@ class ApiCore {
         if (token != null) {
             opts.headers[this.#authHeaderKey] = token;
         }
-        return fetch(this.#domain + url, opts).then(response => response.json()).catch(err => console.log(err.message))
+        return fetch(this.#domain + url, opts).then(ApiCore.convertToJSON).catch(err => console.log(err.message))
     }
 
     static post(url: string, body: any = {}, options: any = {}) {
-        const token = BrowserStorage.get('token');
+        const token = BrowserStorage.get(AUTH_STORAGE_KEY);
         const opts: any = {
             method: 'POST',
             headers: {}
@@ -40,6 +41,14 @@ class ApiCore {
         }
 
         return fetch(this.#domain + url, opts).catch(err => console.log(err.message))
+    }
+
+    static convertToJSON(response: Response | void) {
+        return response ? response.json() : null;
+    }
+
+    static extractToken(value: any) {
+        return value ? value['token'] : null;
     }
 }
 
