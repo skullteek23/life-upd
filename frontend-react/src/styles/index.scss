@@ -1,0 +1,378 @@
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
+
+$btn-primary-bg: #e3edff;
+$btn-primary-color: #176bff;
+$btn-primary-color-35: #176bff35;
+$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
+$time-color: #6a717a;
+$input-bg-color: #F0F0F0;
+$input-bg-color-darker: #F0F0F070;
+$input-bg-color-lighter: #F0F0F020;
+
+* {
+    font-family: 'Open Sans', sans-serif;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+
+    .primary-btn {
+        height: 36px;
+        padding: 8px;
+        background-color: $btn-primary-bg;
+        color: $btn-primary-color;
+        text-align: center;
+        border: 0px solid rgb(232, 213, 213);
+        border-radius: 8px;
+        box-sizing: border-box;
+
+        &:hover {
+            cursor: pointer;
+            border: $btn-primary-color-35 1px solid;
+        }
+    }
+
+    .logout-btn {
+        margin-left: 8px;
+
+        &:hover {
+            cursor: pointer;
+            border: none;
+            opacity: 0.5;
+        }
+
+        img {
+            height: 100%;
+            width: 100%;
+
+        }
+
+    }
+}
+
+header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0 16px;
+    height: 56px;
+    box-shadow: $box-shadow;
+
+    @media screen and (max-width: 230px) {
+        flex-direction: column;
+        flex-direction: column;
+        padding: 7px 16px;
+        height: auto;
+    }
+
+    .main-header-title {
+        width: 100%;
+        display: inline-block;
+        margin: auto;
+        font-size: 20px;
+        font-family: 'Open Sans';
+        color: black;
+
+        &:hover {
+            color: black;
+            text-decoration: none;
+        }
+    }
+
+    .action-btn {
+        width: 100px;
+        margin-left: auto;
+    }
+}
+
+.feed {
+    .date-filter {
+        display: flex;
+        flex-direction: row;
+        gap: 8px;
+        overflow-x: auto;
+        max-width: 350px;
+        margin: 12px auto 0;
+        /* Firefox */
+        scrollbar-width: thin;
+        scrollbar-color: #888 transparent;
+
+        @media screen and (min-width:459px) {}
+
+        /* Chrome, Edge, Safari */
+        &::-webkit-scrollbar {
+            height: 2px;
+        }
+
+        &::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        &::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 5px;
+        }
+
+        &::-webkit-scrollbar-thumb:hover {
+            background: #555;
+        }
+
+        .cross-btn {
+            min-width: 38px !important;
+            width: 38px !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            img {
+                height: 16px;
+                width: 16px;
+            }
+        }
+
+        .selectable-btn {
+            background-color: $input-bg-color;
+            height: 38px;
+            max-height: 38px;
+            width: 100%;
+            min-width: 100px;
+            max-width: 100px;
+            border-radius: 39px;
+            color: #00000090;
+            font-size: 13px;
+            border: none;
+            box-sizing: border-box;
+
+            &:hover {
+                cursor: pointer;
+                background-color: $input-bg-color-darker;
+            }
+        }
+
+        .selectable-btn.selected {
+            color: black;
+            background-color: $input-bg-color-lighter;
+            border: 1px solid #888;
+        }
+    }
+
+    #posts {
+        max-width: 350px;
+        margin: auto;
+        margin-top: 12px;
+        padding-inline-start: 0;
+
+        li {
+            list-style: none;
+            margin-bottom: 4px;
+            max-width: 100%;
+
+            @media screen and (min-width:351px) {
+                margin-bottom: 16px;
+            }
+
+            .card {
+                overflow: hidden;
+                width: 100%;
+                border-radius: 8px;
+                display: flex;
+                flex-direction: column;
+
+                @media screen and (min-width:351px) {
+                    box-shadow: $box-shadow;
+                }
+
+                footer {
+                    display: flex;
+                    padding: 0 12px 12px 0;
+
+                    .footer-subtitle {
+                        font-size: 11px;
+                        padding: 0 12px;
+                    }
+                }
+
+                .card-image-input {
+                    background: $input-bg-color;
+                    border-radius: 8px;
+                    cursor: pointer;
+                }
+
+                .remove-image-btn {
+                    position: absolute;
+                    margin: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    background: white;
+
+                    &:hover {
+                        cursor: pointer;
+                        border: none;
+                        opacity: 0.5;
+                    }
+
+                    img {
+                        height: 24px;
+                        width: 24px;
+                        margin: 0;
+                    }
+                }
+
+                .card-title,
+                .footer-title {
+                    font-size: 13px;
+                    padding: 0 12px;
+                    margin: 8px 0;
+                    display: flex;
+                    gap: 4px;
+                    justify-content: flex-start;
+
+                    .username {
+                        font-weight: 600;
+                    }
+
+                    .dot,
+                    .date-posted {
+                        color: $time-color;
+                    }
+
+                    .visibility-icon {
+                        margin-left: auto;
+                    }
+
+
+                    .visibility-icon,
+                    .category-icon {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        height: 16px;
+                        width: 16px;
+                        min-height: 16px;
+                        min-width: 16px;
+
+                        img {
+                            height: 16px;
+                            width: 16px;
+                            min-height: 16px;
+                            min-width: 16px;
+                        }
+                    }
+                }
+
+                .card-title-action {
+                    padding: 0 12px;
+                    display: flex;
+                    align-items: flex-start;
+                    gap: 13px;
+                    overflow-x: auto;
+
+
+                }
+
+                textarea {
+                    border: none;
+                    border-radius: 8px;
+                    padding: 12px;
+                    background: $input-bg-color;
+                    margin: 8px 0 0;
+                    width: stretch;
+
+
+                }
+
+                .action-element {
+                    display: flex;
+                    flex-direction: column;
+                    gap: 4px;
+                    align-items: center;
+                    justify-content: center;
+                    cursor: pointer;
+                    opacity: 0.2;
+
+                    &:hover {
+                        opacity: 0.3;
+                    }
+
+                    &.selected {
+                        opacity: 1;
+                    }
+
+
+                    &-text {
+                        font-size: 10px;
+                        width: 50px;
+                        text-align: center;
+                    }
+
+                    &-img {
+                        height: 32px;
+                        width: 32px;
+                        background-color: white;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                    }
+                }
+            }
+
+            .card-content {
+                padding: 0 12px;
+                margin: 4px 0 8px;
+                font-weight: 400;
+                font-size: 15px;
+                display: flex;
+                flex-direction: column;
+            }
+
+            img {
+                max-width: 100%;
+                height: auto;
+            }
+
+        }
+
+
+    }
+}
+
+input,
+textarea {
+    border: none;
+    border-radius: 8px;
+    padding: 12px;
+    background: $input-bg-color;
+    margin: 8px 0 0;
+    width: stretch;
+
+    &:focus {
+        outline: $btn-primary-color auto 1px;
+    }
+}
+
+select {
+    border: none;
+    border-radius: 8px;
+    padding: 0 8px;
+    background: $input-bg-color;
+    width: 100px;
+
+    &:focus {
+        outline: $btn-primary-color auto 1px;
+    }
+}
+
+a {
+    color: $btn-primary-color;
+    text-decoration: none;
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &:active {
+        opacity: 0.7;
+    }
+}
