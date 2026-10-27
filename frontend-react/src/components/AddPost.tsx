@@ -27,7 +27,7 @@ function AddPost() {
               setIsSubmit(false);
             }
           })
-          .catch((err) => {
+          .catch((_err) => {
             setIsRefresh(false);
             setIsSubmit(false);
           });
