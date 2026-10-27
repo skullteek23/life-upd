@@ -20,7 +20,7 @@ export type ImageFile = Express.Multer.File;
 
 export interface PostFilters {
     within: string;
-    typeOf: string;
+    of: string;
     ofUser: number;
 }
 

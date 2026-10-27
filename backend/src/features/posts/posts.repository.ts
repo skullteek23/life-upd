@@ -12,9 +12,9 @@ export async function queryPosts(conditions?: PostFilters): Promise<IPost[]> {
     const insertAND = () => clause ? insert('AND') : '';
     const insertValue = (value: any) => `($${values.push(value)})`;
 
-    if (conditions?.typeOf) {
+    if (conditions?.of) {
         insertAND();
-        insert(`p.${DB_KEY.category} = ${insertValue(conditions?.typeOf)}`);
+        insert(`p.${DB_KEY.category} = ${insertValue(conditions?.of)}`);
     }
     if (conditions?.within) {
         switch (conditions?.within) {
@@ -42,7 +42,7 @@ export async function queryPosts(conditions?: PostFilters): Promise<IPost[]> {
     }
     if (conditions?.ofUser) {
         insertAND();
-        insert(`p.${DB_KEY.is_pvt} = 0 OR (p.${DB_KEY.is_pvt} = 1 AND p.${DB_KEY.added_by} = ${insertValue(conditions?.ofUser)})`);
+        insert(`(p.${DB_KEY.is_pvt} = 0 OR (p.${DB_KEY.is_pvt} = 1 AND p.${DB_KEY.added_by} = ${insertValue(conditions?.ofUser)}))`);
     } else {
         insertAND();
         insert(`p.${DB_KEY.is_pvt} = 0`);

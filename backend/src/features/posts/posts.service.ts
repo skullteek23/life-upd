@@ -12,7 +12,7 @@ export async function getPosts(queryParams: any): Promise<IPost[]> {
     let posts: IPost[] = [];
     const filters: PostFilters = queryParams;
     filters.within = queryParams['within'];
-    filters.typeOf = queryParams['typeOf'];
+    filters.of = queryParams['of'];
     filters.ofUser = queryParams['userId'];
     posts = await queryPosts(filters);
     return sortPosts(posts);

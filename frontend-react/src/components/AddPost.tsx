@@ -2,7 +2,7 @@ import { useNavigate, useOutletContext } from 'react-router';
 import { Category } from '../models/post';
 import type { ActionOutletContext } from '../utils/actions';
 import { useEffect, useRef } from 'react';
-import { set, validate } from '../services/posts.services';
+import { add, validate } from '../services/posts.services';
 
 function AddPost() {
   const { submission, refresh } = useOutletContext<ActionOutletContext>();
@@ -19,7 +19,7 @@ function AddPost() {
     if (isSubmit && formRef?.current) {
       const values = Object.fromEntries(new FormData(formRef?.current));
       if (values && Object.keys(values).length) {
-        set(validate(values))
+        add(validate(values))
           .then((result) => {
             if (result) {
               navigate('/');
@@ -29,7 +29,7 @@ function AddPost() {
           })
           .catch((_err) => {
             setIsRefresh(false);
-            setIsSubmit(false);
+            setIsSubmit(true);
           });
       }
     }

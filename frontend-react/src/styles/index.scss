@@ -4,7 +4,7 @@ $btn-primary-bg: #e3edff;
 $btn-primary-color: #176bff;
 $btn-primary-color-35: #176bff35;
 $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-$time-color: #6a717a;
+$grey-color: #6a717a;
 $input-bg-color: #F0F0F0;
 $input-bg-color-darker: #F0F0F070;
 $input-bg-color-lighter: #F0F0F020;
@@ -87,48 +87,64 @@ header {
 }
 
 .feed {
-    .date-filter {
+    .custom-filter {
         display: flex;
         flex-direction: row;
         gap: 8px;
-        overflow-x: auto;
+        overflow-x: hidden;
         max-width: 350px;
         margin: 12px auto 0;
-        /* Firefox */
-        scrollbar-width: thin;
-        scrollbar-color: #888 transparent;
+        align-items: flex-start;
 
-        @media screen and (min-width:459px) {}
-
-        /* Chrome, Edge, Safari */
-        &::-webkit-scrollbar {
-            height: 2px;
-        }
-
-        &::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 5px;
-        }
-
-        &::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        .cross-btn {
-            min-width: 38px !important;
-            width: 38px !important;
+        .icon-btn {
+            min-width: 47px !important;
             display: flex;
             align-items: center;
             justify-content: center;
 
             img {
-                height: 16px;
-                width: 16px;
+                height: 20px;
+                width: 20px;
             }
+        }
+
+        .dynamic-filter {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            overflow-x: auto;
+            max-width: 350px;
+            margin: 0 auto 0;
+            width: 100%;
+            /* Firefox */
+            scrollbar-width: thin;
+            scrollbar-color: #888 transparent;
+
+            @media screen and (min-width:459px) {}
+
+            /* Chrome, Edge, Safari */
+            &::-webkit-scrollbar {
+                height: 2px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 5px;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        }
+
+        .icon-btn.cross-btn {
+            background: none !important;
+            width: 20px !important;
+            min-width: 20px !important;
         }
 
         .selectable-btn {
@@ -154,6 +170,12 @@ header {
             color: black;
             background-color: $input-bg-color-lighter;
             border: 1px solid #888;
+        }
+
+        .selectable-btn.cross-btn.selected {
+            color: black;
+            background-color: $input-bg-color-lighter;
+            border: none
         }
     }
 
@@ -235,7 +257,7 @@ header {
 
                     .dot,
                     .date-posted {
-                        color: $time-color;
+                        color: $grey-color;
                     }
 
                     .visibility-icon {
@@ -325,6 +347,18 @@ header {
                 font-size: 15px;
                 display: flex;
                 flex-direction: column;
+            }
+
+            .post-card-content {
+                padding: 0 12px;
+                margin: 4px 0 8px;
+                font-weight: 400;
+                font-size: 14px;
+
+                .see-more {
+                    color: $grey-color;
+                    cursor: pointer;
+                }
             }
 
             img {

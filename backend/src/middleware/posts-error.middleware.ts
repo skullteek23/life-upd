@@ -6,8 +6,8 @@ export function handlePostError() {
         if (!err) {
             next();
         }
+        console.log(err);
         switch (err.message) {
-
             // General
             case POST_ERRORS.invalidPayload:
                 return res.status(400).json({ error: '[POST] Invalid payload' });
@@ -19,6 +19,10 @@ export function handlePostError() {
                 return res.status(422).json({ error: '[POST] Image not saved' });
             case POST_ERRORS.imageNotCompressible:
                 return res.status(422).json({ error: '[POST] Image not saved' });
+            case POST_ERRORS.uploadFailed:
+                return res.status(500).json({ error: '[POST] Post not saved' })
+            case POST_ERRORS.imgUploadFailed:
+                return res.status(500).json({ error: '[POST] Image not saved' })
 
             // Multer related
             case MULTER_ERRORS.imageNotSupport:
@@ -27,8 +31,6 @@ export function handlePostError() {
                 return res.status(413).json({ error: '[POST] Image too large' })
             case MULTER_ERRORS.unexpectedFile:
                 return res.status(400).json({ error: '[POST] Image not saved' })
-            case POST_ERRORS.uploadFailed:
-                return res.status(500).json({ error: '[POST] Post not saved' })
             case MULTER_ERRORS.uploadFailed:
                 return res.status(500).json({ error: '[POST] Image not saved' })
 

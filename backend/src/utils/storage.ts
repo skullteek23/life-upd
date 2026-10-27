@@ -11,7 +11,7 @@ export async function saveImage(file: Buffer<ArrayBuffer> | Buffer, path: string
             upsert: false
         })
         if (error) {
-            throw new Error(POST_ERRORS.uploadFailed);
+            throw new Error(POST_ERRORS.imgUploadFailed);
         } else {
             return data;
         }

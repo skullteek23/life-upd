@@ -1,15 +1,18 @@
 import ApiCore from "../utils/api";
 import { Category, PostPayload, type Post as PostType } from '../models/post';
 
-export function get(dateFilter: string): Promise<PostType[]> {
+export function get(dateFilter: string, categoryFilter: string): Promise<PostType[]> {
     const params = new URLSearchParams();
     if (dateFilter) {
         params.set('within', dateFilter);
     }
+    if (categoryFilter) {
+        params.set('of', categoryFilter);
+    }
     return ApiCore.get('/posts?' + params);
 }
 
-export function set(data: FormData): Promise<boolean> {
+export function add(data: FormData): Promise<boolean> {
     return ApiCore.post('/posts', data, { hasImage: true, headers: {} })
         .then(response => response ? response.ok : false);
 }
