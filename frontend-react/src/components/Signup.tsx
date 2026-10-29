@@ -21,12 +21,14 @@ function Signup() {
   const handleSubmit = () => {
     const username = String(usernameRef?.current?.value)?.trim();
     const password = String(passwordRef?.current?.value)?.trim();
-    signup(username, password).then((token) => {
-      if (token) {
-        navigate('/');
-        updateLoginState(token);
-      }
-    });
+    signup(username, password)
+      .then((token) => {
+        if (token) {
+          navigate('/');
+          updateLoginState(token);
+        }
+      })
+      .catch(() => {});
   };
   return (
     <section className="feed">

@@ -9,7 +9,7 @@ import Signup from './components/Signup.tsx';
 import Login from './components/Login.tsx';
 import Feed from './components/Feed.tsx';
 import AddPost from './components/AddPost.tsx';
-import { AuthProvider, TOKEN_KEY, useAuth } from './components/context/Auth.tsx';
+import { AuthProvider, TOKEN_KEY } from './components/context/Auth.tsx';
 import EditPost from './components/EditPost.tsx';
 import { getPost } from './services/posts.services.ts';
 import ProtectedRoutes from './components/ProtectedRoutes.tsx';

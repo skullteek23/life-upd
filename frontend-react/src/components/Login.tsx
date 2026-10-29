@@ -21,12 +21,14 @@ function Login() {
   const handleSubmit = () => {
     const username = String(usernameRef?.current?.value)?.trim();
     const password = String(passwordRef?.current?.value)?.trim();
-    login(username, password).then((token) => {
-      if (token) {
-        navigate('/');
-        updateLoginState(token);
-      }
-    });
+    login(username, password)
+      .then((token) => {
+        if (token) {
+          navigate('/');
+          updateLoginState(token);
+        }
+      })
+      .catch(() => {});
   };
 
   return (
