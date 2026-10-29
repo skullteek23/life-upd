@@ -9,11 +9,12 @@ const router = express.Router();
 
 router.get('/', parseToken({ isRequired: false }), handleAuthError(), handleGet);
 
-router.get('/:postId', parseToken({ isRequired: true }), handleAuthError(), handleGet);
+router.use(parseToken({ isRequired: true }), handleAuthError())
+router.get('/:postId', handleGet);
 
-router.post('/', parseToken({ isRequired: true }), handleAuthError(), captureImages(), convertHEIF(), handleCreate);
-
-router.patch('/:postId', parseToken({ isRequired: true }), handleAuthError(), handleUpdate);
+router.use(captureImages(), convertHEIF())
+router.post('/', handleCreate);
+router.patch('/:postId', handleUpdate);
 
 router.use(handlePostError());
 

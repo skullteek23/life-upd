@@ -1,8 +1,8 @@
 import { createContext, useContext, useState } from 'react';
 import BrowserStorage from '../../utils/storage';
 
-export const AUTH_STORAGE_KEY = 'token';
-export const USER_ID_KEY = 'user';
+export const TOKEN_KEY = 'token';
+export const USER_KEY = 'user';
 
 type AuthContextType = {
   isLogged: boolean;
@@ -13,15 +13,16 @@ type AuthContextType = {
 const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
-  const [isLogged, setIsLogged] = useState(() => Boolean(BrowserStorage.get(AUTH_STORAGE_KEY)));
+  const [isLogged, setIsLogged] = useState(() => Boolean(BrowserStorage.get(TOKEN_KEY)));
 
   const login = (token: string) => {
     setIsLogged(true);
-    BrowserStorage.save(AUTH_STORAGE_KEY, token);
+    BrowserStorage.save(TOKEN_KEY, token);
   };
   const logout = () => {
     setIsLogged(false);
-    BrowserStorage.remove(AUTH_STORAGE_KEY);
+    BrowserStorage.remove(TOKEN_KEY);
+    BrowserStorage.remove(USER_KEY);
   };
 
   return <AuthContext.Provider value={{ isLogged, login, logout }}>{children}</AuthContext.Provider>;
