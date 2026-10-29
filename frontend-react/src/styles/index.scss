@@ -194,6 +194,8 @@ header {
         margin: auto;
         margin-top: 12px;
         padding-inline-start: 0;
+        max-height: calc(100vh - 200px);
+        overflow-y: auto;
 
         li {
             list-style: none;
