@@ -1,7 +1,7 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { RefObject, ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import './Menu.scss';
+import '../styles/menu.scss';
 
 export type MenuOption<Value extends string = string> = {
   value: Value;

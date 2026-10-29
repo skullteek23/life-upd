@@ -4,10 +4,12 @@ import { add, validateNewPost } from '../services/posts.services';
 import PostForm, { PLACEHOLDER_IMAGE, type IForm } from './PostForm';
 import { useSubmitAction } from './context/SubmitAction';
 import { useRefreshAction } from './context/refreshAction';
+import { useLoadingAction } from './context/LoadingAction';
 
 function AddPost() {
   const [isSubmit, setIsSubmit] = useSubmitAction();
   const [_isRefresh, setIsRefresh] = useRefreshAction();
+  const [_isLoading, setIsLoading] = useLoadingAction();
   const [postData, setPostData] = useState<IForm>({
     category: '',
     visibility: 0,
@@ -20,17 +22,20 @@ function AddPost() {
 
   useEffect(() => {
     if (isSubmit && postData && Object.keys(postData).length) {
+      setIsLoading(true);
       add(validateNewPost(postData))
         .then((result) => {
           if (result) {
             navigate('/');
             setIsRefresh(true);
             setIsSubmit(false);
+            setIsLoading(false);
           }
         })
         .catch((_err) => {
           setIsRefresh(false);
           setIsSubmit(false);
+          setIsLoading(false);
         });
     }
   }, [isSubmit]);

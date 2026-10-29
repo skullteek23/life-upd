@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import { Post as PostType } from '../models/post';
 import { formatDate } from '../utils/date-formatter';
 import { useLoaderData, useNavigate } from 'react-router';
-import { Menu } from './menu/menu';
+import { Menu } from './Menu';
 import { useAuth } from './context/Auth';
 import type { User } from '../models/user';
 

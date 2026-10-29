@@ -8,6 +8,8 @@ import EditButtons from './buttons/EditButtons';
 import { useSubmitAction } from './context/SubmitAction';
 import { useAuth } from './context/Auth';
 import { useRefreshAction } from './context/refreshAction';
+import Loader from './Loader';
+import { useLoadingAction } from './context/LoadingAction';
 
 function Header() {
   const currentPath = useLocation().pathname;
@@ -15,6 +17,7 @@ function Header() {
   const { isLogged, logout } = useAuth();
   const [_isSubmit, setIsSubmit] = useSubmitAction();
   const [_isRefresh, setIsRefresh] = useRefreshAction();
+  const [isLoading, _setIsLoading] = useLoadingAction();
 
   const handleLogout = () => {
     logout();
@@ -23,32 +26,35 @@ function Header() {
   };
 
   return (
-    <header>
-      <Link to="/" className="main-header-title">
-        Life Updates
-      </Link>
-      {isLogged ? (
-        <>
-          {/* Navigates to a page */}
-          {currentPath === '/' && <AddPostButton></AddPostButton>}
+    <>
+      <header>
+        <Link to="/" className="main-header-title">
+          Life Updates
+        </Link>
+        {isLogged ? (
+          <>
+            {/* Navigates to a page */}
+            {currentPath === '/' && <AddPostButton></AddPostButton>}
 
-          {/* Submit a form */}
-          {currentPath === '/add' && <EditButtons action={setIsSubmit.bind(null, true)}></EditButtons>}
-          {currentPath.startsWith('/edit') && <EditButtons action={setIsSubmit.bind(null, true)}></EditButtons>}
+            {/* Submit a form */}
+            {currentPath === '/add' && <EditButtons action={setIsSubmit.bind(null, true)}></EditButtons>}
+            {currentPath.startsWith('/edit') && <EditButtons action={setIsSubmit.bind(null, true)}></EditButtons>}
 
-          {/* Logs out the current user */}
-          <LogoutButton action={handleLogout}></LogoutButton>
-        </>
-      ) : (
-        <>
-          {/* Submit a form */}
-          {(currentPath === '/login' || currentPath === '/signup') && <ContinueButton action={setIsSubmit.bind(null, true)}></ContinueButton>}
+            {/* Logs out the current user */}
+            <LogoutButton action={handleLogout}></LogoutButton>
+          </>
+        ) : (
+          <>
+            {/* Submit a form */}
+            {(currentPath === '/login' || currentPath === '/signup') && <ContinueButton action={setIsSubmit.bind(null, true)}></ContinueButton>}
 
-          {/* Navigates to a page */}
-          {currentPath === '/' && <LoginButton></LoginButton>}
-        </>
-      )}
-    </header>
+            {/* Navigates to a page */}
+            {currentPath === '/' && <LoginButton></LoginButton>}
+          </>
+        )}
+      </header>
+      {isLoading && <Loader></Loader>}
+    </>
   );
 }
 

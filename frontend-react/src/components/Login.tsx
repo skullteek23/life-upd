@@ -3,6 +3,7 @@ import { Link, useNavigate } from 'react-router';
 import { login } from '../services/auth.service';
 import { useAuth } from './context/Auth';
 import { useSubmitAction } from './context/SubmitAction';
+import { useLoadingAction } from './context/LoadingAction';
 
 function Login() {
   const usernameRef = useRef<HTMLInputElement>(null);
@@ -10,6 +11,7 @@ function Login() {
   const navigate = useNavigate();
   const { login: updateLoginState } = useAuth();
   const [isSubmit, setIsSubmit] = useSubmitAction();
+  const [_isLoading, setIsLoading] = useLoadingAction();
 
   useEffect(() => {
     if (isSubmit) {
@@ -19,6 +21,7 @@ function Login() {
   }, [isSubmit]);
 
   const handleSubmit = () => {
+    setIsLoading(true);
     const username = String(usernameRef?.current?.value)?.trim();
     const password = String(passwordRef?.current?.value)?.trim();
     login(username, password)
@@ -26,9 +29,12 @@ function Login() {
         if (token) {
           navigate('/');
           updateLoginState(token);
+          setIsLoading(false);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   return (

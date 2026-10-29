@@ -5,10 +5,12 @@ import PostForm, { type IForm } from './PostForm';
 import type { Post } from '../models/post';
 import { useSubmitAction } from './context/SubmitAction';
 import { useRefreshAction } from './context/refreshAction';
+import { useLoadingAction } from './context/LoadingAction';
 
 function EditPost() {
   const [isSubmit, setIsSubmit] = useSubmitAction();
   const [_isRefresh, setIsRefresh] = useRefreshAction();
+  const [_isLoading, setIsLoading] = useLoadingAction();
   const [post] = useLoaderData<[Post]>();
   const [postData, setPostData] = useState<IForm>({
     category: post?.category,
@@ -26,17 +28,20 @@ function EditPost() {
       return;
     }
     if (isSubmit && postData && Object.keys(postData).length && post?.id) {
+      setIsLoading(true);
       update(validateExistingPost(postData), post?.id)
         .then((result) => {
           if (result) {
             navigate('/');
             setIsRefresh(true);
             setIsSubmit(false);
+            setIsLoading(false);
           }
         })
         .catch((_err) => {
           setIsRefresh(false);
           setIsSubmit(false);
+          setIsLoading(false);
         });
     }
   }, [isSubmit]);

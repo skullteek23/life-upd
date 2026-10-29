@@ -6,16 +6,20 @@ import { DateFilter, CategoryFilter } from './Filters';
 import { getPosts } from '../services/posts.services';
 import type { Post as PostType } from '../models/post';
 import { useRefreshAction } from './context/refreshAction';
+import { useLoadingAction } from './context/LoadingAction';
 
 function Feed() {
   const [feed, setFeed] = useState<PostType[]>([]);
   const [dateFilter, setDateFilter] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [isRefresh, _setIsRefresh] = useRefreshAction();
+  const [_isLoading, setIsLoading] = useLoadingAction();
 
   useEffect(() => {
+    setIsLoading(true);
     getPosts(dateFilter, categoryFilter).then((response: PostType[]) => {
       setFeed([...(response || [])]);
+      setIsLoading(false);
     });
   }, [dateFilter, categoryFilter, isRefresh]);
 

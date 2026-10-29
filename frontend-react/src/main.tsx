@@ -4,20 +4,21 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import './styles/index.scss';
 
+import { AuthProvider, TOKEN_KEY } from './components/context/Auth.tsx';
+import { getPost } from './services/posts.services.ts';
+import { getUserID as getUser } from './services/user.service.ts';
 import App from './App.tsx';
 import Signup from './components/Signup.tsx';
 import Login from './components/Login.tsx';
 import Feed from './components/Feed.tsx';
 import AddPost from './components/AddPost.tsx';
-import { AuthProvider, TOKEN_KEY } from './components/context/Auth.tsx';
 import EditPost from './components/EditPost.tsx';
-import { getPost } from './services/posts.services.ts';
 import ProtectedRoutes from './components/ProtectedRoutes.tsx';
 import PublicOnlyRoutes from './components/PublicOnlyRoutes.tsx';
-import { getUserID as getUser } from './services/user.service.ts';
 import SubmitAction from './components/context/SubmitAction.tsx';
 import RefreshAction from './components/context/refreshAction.tsx';
 import BrowserStorage from './utils/storage.ts';
+import LoadingAction from './components/context/LoadingAction.tsx';
 
 const router = createBrowserRouter([
   {
@@ -60,7 +61,9 @@ createRoot(document.getElementById('root')!).render(
     <AuthProvider>
       <SubmitAction>
         <RefreshAction>
-          <RouterProvider router={router} />
+          <LoadingAction>
+            <RouterProvider router={router} />
+          </LoadingAction>
         </RefreshAction>
       </SubmitAction>
     </AuthProvider>

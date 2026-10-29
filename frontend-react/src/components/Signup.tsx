@@ -3,9 +3,11 @@ import { Link, useNavigate } from 'react-router';
 import { signup } from '../services/auth.service';
 import { useAuth } from './context/Auth';
 import { useSubmitAction } from './context/SubmitAction';
+import { useLoadingAction } from './context/LoadingAction';
 
 function Signup() {
   const [isSubmit, setIsSubmit] = useSubmitAction();
+  const [_isLoading, setIsLoading] = useLoadingAction();
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -19,6 +21,7 @@ function Signup() {
   }, [isSubmit]);
 
   const handleSubmit = () => {
+    setIsLoading(true);
     const username = String(usernameRef?.current?.value)?.trim();
     const password = String(passwordRef?.current?.value)?.trim();
     signup(username, password)
@@ -26,9 +29,12 @@ function Signup() {
         if (token) {
           navigate('/');
           updateLoginState(token);
+          setIsLoading(false);
         }
       })
-      .catch(() => {});
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
   return (
     <section className="feed">
