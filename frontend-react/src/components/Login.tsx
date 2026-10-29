@@ -1,16 +1,15 @@
 import { useEffect, useRef } from 'react';
-import { Link, useNavigate, useOutletContext } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { login } from '../services/auth.service';
-import { useAuth } from './Auth';
-import type { ActionOutletContext } from '../utils/actions';
+import { useAuth } from './context/Auth';
+import { useSubmitAction } from './context/SubmitAction';
 
 function Login() {
-  const { submission } = useOutletContext<ActionOutletContext>();
-  const [isSubmit, setIsSubmit] = submission;
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
   const { login: updateLoginState } = useAuth();
+  const [isSubmit, setIsSubmit] = useSubmitAction();
 
   useEffect(() => {
     if (isSubmit) {

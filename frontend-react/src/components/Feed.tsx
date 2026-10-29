@@ -1,23 +1,20 @@
 import { useEffect, useState } from 'react';
-import { useOutletContext } from 'react-router';
 
 import Post from './Post';
 import FILTERS_MAP from '../models/filters';
 import { DateFilter, CategoryFilter } from './Filters';
-import { get } from '../services/posts.services';
+import { getPosts } from '../services/posts.services';
 import type { Post as PostType } from '../models/post';
-import type { ActionOutletContext } from '../utils/actions';
+import { useRefreshAction } from './context/refreshAction';
 
 function Feed() {
   const [feed, setFeed] = useState<PostType[]>([]);
   const [dateFilter, setDateFilter] = useState<string>('');
   const [categoryFilter, setCategoryFilter] = useState<string>('');
-
-  const { refresh } = useOutletContext<ActionOutletContext>();
-  const [isRefresh, _setIsRefresh] = refresh;
+  const [isRefresh, _setIsRefresh] = useRefreshAction();
 
   useEffect(() => {
-    get(dateFilter, categoryFilter).then((response: PostType[]) => {
+    getPosts(dateFilter, categoryFilter).then((response: PostType[]) => {
       setFeed([...(response || [])]);
     });
   }, [dateFilter, categoryFilter, isRefresh]);

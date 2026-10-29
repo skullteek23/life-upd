@@ -1,9 +1,10 @@
-import express from 'express';
+import express, { type Request, type Response } from 'express';
 import path from 'path';
 import cors from 'cors';
+
 import postRouter from './features/posts/posts.route';
+import userRouter from './features/users/users.route';
 import authRouter from './features/auth/auth.route';
-import { type Request, type Response } from 'express';
 import packageJson from '../package.json';
 
 const FRONTEND_URLS = (process.env.FRONTEND_URL || 'http://localhost:4200')
@@ -18,6 +19,7 @@ app.use(express.static(path.join(process.cwd(), 'public', 'uploads')));
 
 app.use('/auth', authRouter);
 app.use('/posts', postRouter);
+app.use('/users', userRouter);
 app.use('/health', (req: Request, res: Response) => {
     res.json({
         status: 'ok',

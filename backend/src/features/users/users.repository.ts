@@ -17,6 +17,15 @@ export function findUserByUsername(username: string): Promise<QueryResult<any>> 
     return execute(query);
 }
 
+export async function findUserByID(userID: number): Promise<IUser[]> {
+    const query = {
+        text: 'SELECT id, username, created_at FROM users WHERE id = ($1)',
+        values: [userID]
+    }
+    const result = await execute(query);
+    return parse(result);
+}
+
 export function addUser(user: Partial<IUser>): Promise<QueryResult<any>> {
     const query = {
         text: 'INSERT INTO users (username, password_hash) VALUES ($1, $2) RETURNING *',

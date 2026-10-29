@@ -1,21 +1,19 @@
 import express from 'express';
-import { handleCreate, handleGet } from './posts.controller';
+import { handleCreate, handleGet, handleUpdate } from './posts.controller';
 import { captureImages } from '@middleware/capture-image';
 import { convertHEIF } from '@middleware/convert-image';
-import { handlePostError } from '@middleware/posts-error.middleware';
-import { checkToken } from '@middleware/token-check.middleware';
-import { handleAuthError } from '@middleware/auth-error.middleware';
+import { handlePostError, handleAuthError } from '@middleware/error.middleware';
+import { parseToken } from '@middleware/parse-token.middleware';
 
 const router = express.Router();
 
-router.use(checkToken());
-router.use(handleAuthError())
+router.get('/', parseToken({ isRequired: false }), handleAuthError(), handleGet);
 
-router.get('/', handleGet);
+router.get('/:postId', parseToken({ isRequired: true }), handleAuthError(), handleGet);
 
-router.use(captureImages());
-router.use(convertHEIF());
-router.post('/', handleCreate);
+router.post('/', parseToken({ isRequired: true }), handleAuthError(), captureImages(), convertHEIF(), handleCreate);
+
+router.patch('/:postId', parseToken({ isRequired: true }), handleAuthError(), handleUpdate);
 
 router.use(handlePostError());
 

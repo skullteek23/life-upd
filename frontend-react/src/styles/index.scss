@@ -6,8 +6,10 @@ $btn-primary-color-35: #176bff35;
 $box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
 $grey-color: #6a717a;
 $input-bg-color: #F0F0F0;
+$hover-color: #f0f0f050;
 $input-bg-color-darker: #F0F0F070;
 $input-bg-color-lighter: #F0F0F020;
+$sm-breakpoint: 351px;
 
 * {
     font-family: 'Open Sans', sans-serif;
@@ -45,9 +47,18 @@ body {
         img {
             height: 100%;
             width: 100%;
-
         }
+    }
 
+    .cancel-btn {
+        color: red;
+        width: auto !important;
+        margin-left: 8px !important;
+    }
+
+    .action-btn {
+        width: 100px;
+        margin-left: auto;
     }
 }
 
@@ -61,9 +72,9 @@ header {
 
     @media screen and (max-width: 230px) {
         flex-direction: column;
-        flex-direction: column;
         padding: 7px 16px;
         height: auto;
+        gap: 8px;
     }
 
     .main-header-title {
@@ -80,10 +91,7 @@ header {
         }
     }
 
-    .action-btn {
-        width: 100px;
-        margin-left: auto;
-    }
+
 }
 
 .feed {
@@ -95,6 +103,10 @@ header {
         max-width: 350px;
         margin: 12px auto 0;
         align-items: flex-start;
+
+        @media screen and (max-width: $sm-breakpoint) {
+            padding-left: 12px;
+        }
 
         .icon-btn {
             min-width: 47px !important;
@@ -119,8 +131,6 @@ header {
             /* Firefox */
             scrollbar-width: thin;
             scrollbar-color: #888 transparent;
-
-            @media screen and (min-width:459px) {}
 
             /* Chrome, Edge, Safari */
             &::-webkit-scrollbar {
@@ -190,7 +200,7 @@ header {
             margin-bottom: 4px;
             max-width: 100%;
 
-            @media screen and (min-width:351px) {
+            @media screen and (min-width:$sm-breakpoint) {
                 margin-bottom: 16px;
             }
 
@@ -201,8 +211,8 @@ header {
                 display: flex;
                 flex-direction: column;
 
-                @media screen and (min-width:351px) {
-                    box-shadow: $box-shadow;
+                &:hover {
+                    background-color: $hover-color;
                 }
 
                 footer {
@@ -262,6 +272,10 @@ header {
 
                     .visibility-icon {
                         margin-left: auto;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
 
 
@@ -290,8 +304,6 @@ header {
                     align-items: flex-start;
                     gap: 13px;
                     overflow-x: auto;
-
-
                 }
 
                 textarea {
@@ -350,7 +362,7 @@ header {
             }
 
             .post-card-content {
-                padding: 0 12px;
+                padding: 0 8px;
                 margin: 4px 0 8px;
                 font-weight: 400;
                 font-size: 14px;
@@ -364,6 +376,10 @@ header {
             img {
                 max-width: 100%;
                 height: auto;
+
+                @media screen and (min-width:$sm-breakpoint) {
+                    border-radius: 4px;
+                }
             }
 
         }

@@ -1,7 +1,8 @@
 import { createContext, useContext, useState } from 'react';
-import BrowserStorage from '../utils/storage';
+import BrowserStorage from '../../utils/storage';
 
 export const AUTH_STORAGE_KEY = 'token';
+export const USER_ID_KEY = 'user';
 
 type AuthContextType = {
   isLogged: boolean;

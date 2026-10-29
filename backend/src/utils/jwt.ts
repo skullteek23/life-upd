@@ -21,7 +21,7 @@ export function verifyToken(token: string): boolean {
     }
 }
 
-export function decodeToken(token: string): string {
+export function decodeToken(token: any): string {
     return String(decode(token));
 }
 

@@ -1,23 +1,25 @@
-import { Link, useLocation } from 'react-router';
+import { Link, useLocation, useNavigate } from 'react-router';
 
 import AddPostButton from './buttons/AddPostButton';
 import ContinueButton from './buttons/ContinueButton';
 import LoginButton from './buttons/LoginButton';
 import LogoutButton from './buttons/LogoutButton';
-import PublishButton from './buttons/PublishButton';
-import { useAuth } from './Auth';
-import type { IAction } from '../utils/actions';
+import EditButtons from './buttons/EditButtons';
+import { useSubmitAction } from './context/SubmitAction';
+import { useAuth } from './context/Auth';
+import { useRefreshAction } from './context/refreshAction';
 
-interface IHeaderAction extends IAction {
-  isRefresh: () => void;
-}
-
-function Header(props: IHeaderAction) {
+function Header() {
   const currentPath = useLocation().pathname;
+  const navigate = useNavigate();
   const { isLogged, logout } = useAuth();
+  const [_isSubmit, setIsSubmit] = useSubmitAction();
+  const [_isRefresh, setIsRefresh] = useRefreshAction();
+
   const handleLogout = () => {
     logout();
-    props.isRefresh();
+    setIsRefresh(true);
+    navigate('/');
   };
 
   return (
@@ -31,7 +33,8 @@ function Header(props: IHeaderAction) {
           {currentPath === '/' && <AddPostButton></AddPostButton>}
 
           {/* Submit a form */}
-          {currentPath === '/add' && <PublishButton action={props.action}></PublishButton>}
+          {currentPath === '/add' && <EditButtons action={setIsSubmit.bind(null, true)}></EditButtons>}
+          {currentPath.startsWith('/edit') && <EditButtons action={setIsSubmit.bind(null, true)}></EditButtons>}
 
           {/* Logs out the current user */}
           <LogoutButton action={handleLogout}></LogoutButton>
@@ -39,7 +42,7 @@ function Header(props: IHeaderAction) {
       ) : (
         <>
           {/* Submit a form */}
-          {(currentPath === '/login' || currentPath === '/signup') && <ContinueButton action={props.action}></ContinueButton>}
+          {(currentPath === '/login' || currentPath === '/signup') && <ContinueButton action={setIsSubmit.bind(null, true)}></ContinueButton>}
 
           {/* Navigates to a page */}
           {currentPath === '/' && <LoginButton></LoginButton>}

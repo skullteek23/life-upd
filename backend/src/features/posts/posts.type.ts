@@ -22,6 +22,10 @@ export interface PostFilters {
     within: string;
     of: string;
     ofUser: number;
+    includePvt: {
+        ofUser: number
+    } | null;
+    id: number;
 }
 
 export const DB_KEY = {

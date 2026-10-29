@@ -13,6 +13,8 @@ const capture = multer({
     fileFilter: (req, file, cb) => {
         if (allowedTypes.includes(file.mimetype)) {
             cb(null, true);
+        } else if (!file) {
+            cb(null, true);
         } else {
             cb(new Error(MULTER_ERRORS.imageNotSupport));
         }
@@ -27,6 +29,8 @@ export function captureImages() {
             if (!err) {
                 return next();
             }
+
+            console.log(err)
 
             if (err instanceof multer.MulterError) {
                 switch (err.code) {

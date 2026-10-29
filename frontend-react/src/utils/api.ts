@@ -1,4 +1,4 @@
-import { AUTH_STORAGE_KEY } from "../components/Auth.js";
+import { AUTH_STORAGE_KEY } from "../components/context/Auth.js";
 import BrowserStorage from "./storage.js";
 
 class ApiCore {
@@ -16,7 +16,18 @@ class ApiCore {
         if (token != null) {
             opts.headers[this.#authHeaderKey] = token;
         }
-        return fetch(this.#domain + url, opts).then(ApiCore.convertToJSON).catch(err => console.log(err.message))
+        return fetch(this.#domain + url, opts)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error: ${res.status}`);
+                }
+                return res;
+            })
+            .then(ApiCore.convertToJSON)
+            .catch(err => {
+                console.error(err.message);
+                throw err;
+            });
     }
 
     static post(url: string, body: any = {}, options: any = {}) {
@@ -40,7 +51,51 @@ class ApiCore {
             }
         }
 
-        return fetch(this.#domain + url, opts).catch(err => console.log(err.message))
+        return fetch(this.#domain + url, opts)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error: ${res.status}`);
+                }
+                return res;
+            })
+            .catch(err => {
+                console.error(err.message);
+                throw err;
+            });
+    }
+
+    static patch(url: string, body: any = {}, options: any = {}) {
+        const token = BrowserStorage.get(AUTH_STORAGE_KEY);
+        const opts: any = {
+            method: 'PATCH',
+            headers: {}
+        };
+
+        if (token != null) {
+            opts.headers[this.#authHeaderKey] = token;
+        }
+
+        if (options.hasImage === true) {
+            opts.body = body;
+        } else if (Object.keys(body).length > 0) {
+            opts.body = JSON.stringify(body);
+            opts.headers = {
+                'Content-Type': 'application/json',
+                ...options.headers,
+            }
+        }
+
+        return fetch(this.#domain + url, opts)
+            .then(res => {
+                if (!res.ok) {
+                    throw new Error(`HTTP error: ${res.status}`);
+                }
+                return res;
+            })
+            .catch(err => {
+                console.error(err.message);
+                throw err;
+            });
     }
 
     static convertToJSON(response: Response | void) {

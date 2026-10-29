@@ -14,7 +14,6 @@ export function signup(username: string, password: string) {
     if (username && password) {
         return ApiCore.post('/auth/signup', { username, password })
             .then(ApiCore.convertToJSON)
-            .then(ApiCore.extractToken)
     }
     return Promise.reject(null);
 }

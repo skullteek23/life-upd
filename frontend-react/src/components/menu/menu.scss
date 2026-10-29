@@ -1,0 +1,34 @@
+.simple-menu__list {
+    position: fixed;
+    z-index: 1000;
+    width: max-content;
+    max-width: 200px;
+    box-sizing: border-box;
+    border: 1px solid #d7dade;
+    border-radius: 0.4rem;
+    background: #fff;
+    box-shadow: 0 5px 18px rgb(0 0 0 / 14%);
+}
+
+.simple-menu__item:hover:not(:disabled) {
+    background: #f2f4f7;
+}
+
+.simple-menu__item {
+    font-size: 14px;
+    padding: 12px;
+    display: block;
+    width: 100%;
+    border: 0;
+    border-radius: 4px;
+    background: transparent;
+    color: inherit;
+    text-align: left;
+    white-space: nowrap;
+    cursor: pointer;
+}
+
+.simple-menu__item:disabled {
+    color: #8a9099;
+    cursor: not-allowed;
+}

@@ -17,9 +17,11 @@ export class Post {
     is_pvt = 0;
 }
 
-export class PostPayload {
+export class NewPostPayload {
     caption = '';
     is_pvt = 0;
     photo = null;
-    category = ''
+    category = '';
 }
+
+export type PostUpdatePayload = Partial<NewPostPayload>;
