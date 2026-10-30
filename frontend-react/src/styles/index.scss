@@ -1,13 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-
-$btn-primary-bg: #e3edff;
-$btn-primary-color: #176bff;
-$btn-primary-color-35: #176bff35;
-$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-$time-color: #6a717a;
-$input-bg-color: #F0F0F0;
-$input-bg-color-darker: #F0F0F070;
-$input-bg-color-lighter: #F0F0F020;
+@import './variables.scss';
 
 * {
     font-family: 'Open Sans', sans-serif;
@@ -45,9 +37,19 @@ body {
         img {
             height: 100%;
             width: 100%;
-
+            min-width: 16px;
         }
+    }
 
+    .cancel-btn {
+        color: red;
+        width: auto !important;
+        margin-left: 8px !important;
+    }
+
+    .action-btn {
+        width: 100px;
+        margin-left: auto;
     }
 }
 
@@ -58,12 +60,26 @@ header {
     padding: 0 16px;
     height: 56px;
     box-shadow: $box-shadow;
+    transition: background-color 1s ease;
+
+    &.normal {
+        background-color: white;
+    }
+
+    &.success {
+        background-color: #23C552;
+    }
+
+    &.error {
+        background-color: #F84F31;
+
+    }
 
     @media screen and (max-width: 230px) {
         flex-direction: column;
-        flex-direction: column;
         padding: 7px 16px;
         height: auto;
+        gap: 8px;
     }
 
     .main-header-title {
@@ -79,56 +95,69 @@ header {
             text-decoration: none;
         }
     }
-
-    .action-btn {
-        width: 100px;
-        margin-left: auto;
-    }
 }
 
 .feed {
-    .date-filter {
+    .custom-filter {
         display: flex;
         flex-direction: row;
         gap: 8px;
-        overflow-x: auto;
+        overflow-x: hidden;
         max-width: 350px;
         margin: 12px auto 0;
-        /* Firefox */
-        scrollbar-width: thin;
-        scrollbar-color: #888 transparent;
+        align-items: flex-start;
 
-        @media screen and (min-width:459px) {}
-
-        /* Chrome, Edge, Safari */
-        &::-webkit-scrollbar {
-            height: 2px;
+        @media screen and (max-width: $sm-breakpoint) {
+            padding-left: 12px;
         }
 
-        &::-webkit-scrollbar-track {
-            background: transparent;
-        }
-
-        &::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 5px;
-        }
-
-        &::-webkit-scrollbar-thumb:hover {
-            background: #555;
-        }
-
-        .cross-btn {
-            min-width: 38px !important;
-            width: 38px !important;
+        .icon-btn {
+            min-width: 47px !important;
             display: flex;
             align-items: center;
             justify-content: center;
 
             img {
-                height: 16px;
-                width: 16px;
+                height: 20px;
+                width: 20px;
             }
+        }
+
+        .dynamic-filter {
+            display: flex;
+            flex-direction: row;
+            gap: 8px;
+            overflow-x: auto;
+            max-width: 350px;
+            margin: 0 auto 0;
+            width: 100%;
+            /* Firefox */
+            scrollbar-width: thin;
+            scrollbar-color: #888 transparent;
+
+            /* Chrome, Edge, Safari */
+            &::-webkit-scrollbar {
+                height: 2px;
+            }
+
+            &::-webkit-scrollbar-track {
+                background: transparent;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 5px;
+            }
+
+            &::-webkit-scrollbar-thumb:hover {
+                background: #555;
+            }
+        }
+
+        .icon-btn.cross-btn {
+            background: none !important;
+            width: 20px !important;
+            min-width: 20px !important;
         }
 
         .selectable-btn {
@@ -155,6 +184,12 @@ header {
             background-color: $input-bg-color-lighter;
             border: 1px solid #888;
         }
+
+        .selectable-btn.cross-btn.selected {
+            color: black;
+            background-color: $input-bg-color-lighter;
+            border: none
+        }
     }
 
     #posts {
@@ -162,13 +197,15 @@ header {
         margin: auto;
         margin-top: 12px;
         padding-inline-start: 0;
+        max-height: calc(100vh - 166px);
+        overflow-y: auto;
 
         li {
             list-style: none;
             margin-bottom: 4px;
             max-width: 100%;
 
-            @media screen and (min-width:351px) {
+            @media screen and (min-width:$sm-breakpoint) {
                 margin-bottom: 16px;
             }
 
@@ -179,8 +216,8 @@ header {
                 display: flex;
                 flex-direction: column;
 
-                @media screen and (min-width:351px) {
-                    box-shadow: $box-shadow;
+                &:hover {
+                    background-color: $hover-color;
                 }
 
                 footer {
@@ -235,11 +272,15 @@ header {
 
                     .dot,
                     .date-posted {
-                        color: $time-color;
+                        color: $grey-color;
                     }
 
                     .visibility-icon {
                         margin-left: auto;
+                        cursor: pointer;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
                     }
 
 
@@ -268,8 +309,6 @@ header {
                     align-items: flex-start;
                     gap: 13px;
                     overflow-x: auto;
-
-
                 }
 
                 textarea {
@@ -327,9 +366,25 @@ header {
                 flex-direction: column;
             }
 
+            .post-card-content {
+                padding: 0 8px;
+                margin: 4px 0 8px;
+                font-weight: 400;
+                font-size: 14px;
+
+                .see-more {
+                    color: $grey-color;
+                    cursor: pointer;
+                }
+            }
+
             img {
                 max-width: 100%;
                 height: auto;
+
+                @media screen and (min-width:$sm-breakpoint) {
+                    border-radius: 4px;
+                }
             }
 
         }

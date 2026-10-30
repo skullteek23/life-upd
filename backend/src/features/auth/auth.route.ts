@@ -1,6 +1,6 @@
 import express from 'express';
 import { handleLogin, handleSignup } from './auth.controller';
-import { handleAuthError } from '@middleware/auth-error.middleware';
+import { handleAuthError } from '@middleware/error.middleware';
 
 const router = express.Router();
 

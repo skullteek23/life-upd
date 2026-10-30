@@ -3,18 +3,20 @@ import { QueryResult } from "pg";
 import pool from "../../utils/postgres";
 import { DB_KEY, IPost, PostFilters } from "./posts.type";
 import { IQuery } from "../../utils/models";
+import { POST_ERRORS } from "@utils/constants";
 
 export async function queryPosts(conditions?: PostFilters): Promise<IPost[]> {
     let clause = '';
     const values: any[] = [];
     const format = (value: string) => ` ${value} `;
     const insert = (value: string) => clause += format(value);
+    const insertOR = () => clause ? insert('OR') : '';
     const insertAND = () => clause ? insert('AND') : '';
     const insertValue = (value: any) => `($${values.push(value)})`;
 
-    if (conditions?.typeOf) {
+    if (conditions?.of) {
         insertAND();
-        insert(`p.${DB_KEY.category} = ${insertValue(conditions?.typeOf)}`);
+        insert(`p.${DB_KEY.category} = ${insertValue(conditions?.of)}`);
     }
     if (conditions?.within) {
         switch (conditions?.within) {
@@ -40,12 +42,28 @@ export async function queryPosts(conditions?: PostFilters): Promise<IPost[]> {
             //     break;
         }
     }
+
     if (conditions?.ofUser) {
         insertAND();
-        insert(`p.${DB_KEY.is_pvt} = 0 OR (p.${DB_KEY.is_pvt} = 1 AND p.${DB_KEY.added_by} = ${insertValue(conditions?.ofUser)})`);
+        insert(`p.${DB_KEY.added_by} = ${insertValue(conditions?.ofUser)}`);
+    }
+
+    if (conditions?.includePvt?.ofUser) {
+        insertAND();
+        insert('(');
+        insert(`(p.${DB_KEY.is_pvt} = 0)`)
+        insertOR();
+        insert(`(p.${DB_KEY.is_pvt} = 1 AND p.${DB_KEY.added_by} = ${insertValue(conditions?.includePvt?.ofUser)})`);
+        insert(')')
     } else {
+        // By default includes public posts
         insertAND();
         insert(`p.${DB_KEY.is_pvt} = 0`);
+    }
+
+    if (conditions?.id) {
+        insertAND();
+        insert(`p.${DB_KEY.id} = ${insertValue(conditions?.id)}`)
     }
 
     const selectClause = `SELECT p.${DB_KEY.id}, p.${DB_KEY.caption}, p.${DB_KEY.created_at}, p.${DB_KEY.is_pvt}, p.${DB_KEY.img_url}, p.${DB_KEY.category}, u.${DB_KEY.username} AS ${DB_KEY.added_by} `;
@@ -65,6 +83,36 @@ export async function addPost(post: Partial<IPost>): Promise<IPost[]> {
     };
 
     return execute(query);
+}
+
+export async function updatePost(id: number, post: Partial<IPost>): Promise<IPost[]> {
+    const allowedFields = ['img_url', 'caption', 'category', 'is_pvt'] as const;
+
+    const fields = allowedFields.filter(
+        (key) => Object.hasOwn(post, key)
+    );
+
+    if (fields.length === 0) {
+        throw new Error(POST_ERRORS.noFieldToUpdate);
+    }
+
+    const values = fields.map((key) => post[key]);
+    const setClause = fields
+        .map((key, index) => `${key} = $${index + 1}`)
+        .join(', ');
+
+    values.push(id);
+
+    const query = {
+        text: `UPDATE posts SET ${setClause} WHERE id = $${values.length} RETURNING *`,
+        values
+    };
+
+    const updatedPosts = await execute(query);
+    if (updatedPosts.length === 0) {
+        throw new Error(POST_ERRORS.postNotExistToUpdate);
+    }
+    return updatedPosts;
 }
 
 // Private functions
