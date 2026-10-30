@@ -17,17 +17,8 @@ class ApiCore {
             opts.headers[this.#authHeaderKey] = token;
         }
         return fetch(this.#domain + url, opts)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error: ${res.status}`);
-                }
-                return res;
-            })
-            .then(ApiCore.convertToJSON)
-            .catch(err => {
-                console.error(err.message);
-                throw err;
-            });
+            .then(ApiCore.handleError)
+            .catch(ApiCore.catchError);
     }
 
     static post(url: string, body: any = {}, options: any = {}) {
@@ -52,16 +43,8 @@ class ApiCore {
         }
 
         return fetch(this.#domain + url, opts)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error: ${res.status}`);
-                }
-                return res;
-            })
-            .catch(err => {
-                console.error(err.message);
-                throw err;
-            });
+            .then(ApiCore.handleError)
+            .catch(ApiCore.catchError);
     }
 
     static patch(url: string, body: any = {}, options: any = {}) {
@@ -86,16 +69,8 @@ class ApiCore {
         }
 
         return fetch(this.#domain + url, opts)
-            .then(res => {
-                if (!res.ok) {
-                    throw new Error(`HTTP error: ${res.status}`);
-                }
-                return res;
-            })
-            .catch(err => {
-                console.error(err.message);
-                throw err;
-            });
+            .then(ApiCore.handleError)
+            .catch(ApiCore.catchError);
     }
 
     static convertToJSON(response: Response | void) {
@@ -104,6 +79,20 @@ class ApiCore {
 
     static extractToken(value: any) {
         return value ? value['token'] : null;
+    }
+
+    static async handleError(res: Response) {
+        const data = await res.json();
+
+        if (!res.ok) {
+            throw new Error(data.error || 'Something went wrong');
+        }
+
+        return data;
+    }
+
+    static catchError(err: Error) {
+        throw err;
     }
 }
 

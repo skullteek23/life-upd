@@ -1,15 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap');
-
-$btn-primary-bg: #e3edff;
-$btn-primary-color: #176bff;
-$btn-primary-color-35: #176bff35;
-$box-shadow: 0 2px 4px rgba(0, 0, 0, 0.06);
-$grey-color: #6a717a;
-$input-bg-color: #F0F0F0;
-$hover-color: #f0f0f050;
-$input-bg-color-darker: #F0F0F070;
-$input-bg-color-lighter: #F0F0F020;
-$sm-breakpoint: 351px;
+@import './variables.scss';
 
 * {
     font-family: 'Open Sans', sans-serif;
@@ -47,6 +37,7 @@ body {
         img {
             height: 100%;
             width: 100%;
+            min-width: 16px;
         }
     }
 
@@ -69,6 +60,20 @@ header {
     padding: 0 16px;
     height: 56px;
     box-shadow: $box-shadow;
+    transition: background-color 1s ease;
+
+    &.normal {
+        background-color: white;
+    }
+
+    &.success {
+        background-color: #23C552;
+    }
+
+    &.error {
+        background-color: #F84F31;
+
+    }
 
     @media screen and (max-width: 230px) {
         flex-direction: column;
@@ -90,8 +95,6 @@ header {
             text-decoration: none;
         }
     }
-
-
 }
 
 .feed {
@@ -194,7 +197,7 @@ header {
         margin: auto;
         margin-top: 12px;
         padding-inline-start: 0;
-        max-height: calc(100vh - 200px);
+        max-height: calc(100vh - 166px);
         overflow-y: auto;
 
         li {

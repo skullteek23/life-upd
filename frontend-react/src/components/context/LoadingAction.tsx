@@ -1,12 +1,13 @@
 import React, { useState } from 'react';
 import { createContext, useContext } from 'react';
 
-type ActionContextType = [isLoading: boolean, setIsLoading: (value: boolean) => void];
+type ActionContextType = [isLoading: LoadingStatus, setIsLoading: (value: LoadingStatus) => void];
+type LoadingStatus = { status: 'loading' } | { status: 'success' } | { status: 'stop' } | { status: 'error'; error: Error };
 
 const ActionContext = createContext<ActionContextType | null>(null);
 
 function ActionProvider({ children }: { children: React.ReactNode }) {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<LoadingStatus>({ status: 'stop' });
 
   return <ActionContext.Provider value={[isLoading, setIsLoading]}>{children}</ActionContext.Provider>;
 }

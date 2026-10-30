@@ -48,37 +48,37 @@ export function handlePostError() {
         switch (err.message) {
             // General
             case POST_ERRORS.invalidPayload:
-                return res.status(400).json({ error: '[POST] Invalid payload' });
+                return res.status(400).json({ error: 'Invalid details' });
             case POST_ERRORS.invalidFile:
-                return res.status(400).json({ error: '[POST] Invalid file' });
+                return res.status(400).json({ error: 'Invalid image' });
             case POST_ERRORS.imageNotSupport:
-                return res.status(415).json({ error: '[POST] Image not supported' })
+                return res.status(415).json({ error: 'Image not supported' })
             case POST_ERRORS.imageNotProcessable:
-                return res.status(422).json({ error: '[POST] Image not saved' });
+                return res.status(422).json({ error: 'Image not saved' });
             case POST_ERRORS.imageNotCompressible:
-                return res.status(422).json({ error: '[POST] Image not saved' });
+                return res.status(422).json({ error: 'Image not saved' });
             case POST_ERRORS.uploadFailed:
-                return res.status(500).json({ error: '[POST] Post not saved' })
+                return res.status(500).json({ error: 'Post not saved' })
             case POST_ERRORS.imgUploadFailed:
-                return res.status(500).json({ error: '[POST] Image not saved' })
+                return res.status(500).json({ error: 'Image not saved' })
 
             // Multer related
             case MULTER_ERRORS.imageNotSupport:
-                return res.status(415).json({ error: '[POST] Image not supported' })
+                return res.status(415).json({ error: 'Image formats supported: JPEG, PNG, HEIF' })
             case MULTER_ERRORS.fileTooBig:
-                return res.status(413).json({ error: '[POST] Image too large' })
+                return res.status(413).json({ error: 'Image size allowed: Max 20MB' })
             case MULTER_ERRORS.unexpectedFile:
-                return res.status(400).json({ error: '[POST] Image not saved' })
+                return res.status(400).json({ error: 'Image not saved' })
             case MULTER_ERRORS.uploadFailed:
-                return res.status(500).json({ error: '[POST] Image not saved' })
+                return res.status(500).json({ error: 'Image not saved' })
 
             // HEIC/HEIF related
             case HEIC_ERRORS.conversionFailed:
-                return res.status(415).json({ error: '[POST] Image not supported' })
+                return res.status(415).json({ error: 'Image not supported' })
 
             // Default error
             default:
-                return res.status(500).json({ error: `[POST] Failed! Try again later` })
+                return res.status(500).json({ error: `Failed! Try again later` })
         }
     }
 };
@@ -92,13 +92,13 @@ export function handleUserError() {
         switch (err.message) {
             // General
             case USER_ERRORS.duplicateUsers:
-                return res.status(400).json({ error: '[User] Invalid User' });
+                return res.status(400).json({ error: 'Invalid User' });
             case USER_ERRORS.invalidUserId:
-                return res.status(415).json({ error: '[User] Invalid User ID' })
+                return res.status(415).json({ error: 'Invalid User ID' })
 
             // Default error
             default:
-                return res.status(500).json({ error: `[User] Failed! Try again later` })
+                return res.status(500).json({ error: `Failed! Try again later` })
         }
     }
 };

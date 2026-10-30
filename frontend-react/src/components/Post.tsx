@@ -1,22 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { Post as PostType } from '../models/post';
 import { formatDate } from '../utils/date-formatter';
-import { useLoaderData, useNavigate } from 'react-router';
+import { useNavigate } from 'react-router';
 import { Menu } from './Menu';
 import { useAuth } from './context/Auth';
 import type { User } from '../models/user';
+import { useLoadingAction } from './context/LoadingAction';
 
 const TRUNCATED_CAPTION_LENGTH = 70;
 const MORE_TEXT = 'more';
 const ELLIPSIS = '... ';
 
-function Post(props: { data: PostType }) {
+function Post(props: { data: PostType; currentUser: User | null }) {
   const createdDate = formatDate(props.data.created_at);
   const navigate = useNavigate();
   const [caption, setCaption] = useState(props.data.caption);
   const [truncate, setTruncate] = useState(false);
   const { isLogged } = useAuth();
-  const user = useLoaderData<User | null>();
+  const [_isLoading, setIsLoading] = useLoadingAction();
 
   const [open, setOpen] = useState(false);
   const triggerRef = useRef<HTMLButtonElement>(null);
@@ -35,6 +36,11 @@ function Post(props: { data: PostType }) {
     setTruncate(false);
   };
 
+  const handleEdit = () => {
+    setIsLoading({ status: 'loading' });
+    navigate(`/edit/${props.data.id}`);
+  };
+
   return (
     <article className="card">
       <div className="card-title">
@@ -50,13 +56,13 @@ function Post(props: { data: PostType }) {
           {props.data.category === 'slf' && <img src="/images/slf.svg" alt="Self" />}
           {props.data.category === 'lex' && <img src="/images/lex.svg" alt="Life & Experiences" />}
         </span> */}
-        {isLogged && user?.username === props.data.added_by && (
+        {isLogged && props.currentUser?.username === props.data.added_by && (
           <span className="visibility-icon" ref={triggerRef} aria-label="More actions" aria-haspopup="menu" aria-expanded={open} aria-controls="actions-menu" onClick={() => setOpen((wasOpen) => !wasOpen)}>
             <img src="/images/dots.svg" alt="Post Actions" />
           </span>
         )}
 
-        <Menu id="actions-menu" label="More actions" open={open} onClose={closeMenu} triggerRef={triggerRef} items={[{ value: 'edit', label: 'Edit' }]} onSelect={() => navigate(`/edit/${props.data.id}`)} />
+        <Menu id="actions-menu" label="More actions" open={open} onClose={closeMenu} triggerRef={triggerRef} items={[{ value: 'edit', label: 'Edit' }]} onSelect={handleEdit} />
       </div>
       <img className="card-image" src={props.data.img_url} />
       <div className="post-card-content">

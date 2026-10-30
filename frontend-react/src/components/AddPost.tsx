@@ -22,20 +22,19 @@ function AddPost() {
 
   useEffect(() => {
     if (isSubmit && postData && Object.keys(postData).length) {
-      setIsLoading(true);
+      setIsLoading({ status: 'loading' });
       add(validateNewPost(postData))
         .then((result) => {
           if (result) {
             navigate('/');
             setIsRefresh(true);
             setIsSubmit(false);
-            setIsLoading(false);
           }
         })
-        .catch((_err) => {
+        .catch((err) => {
+          setIsLoading({ status: 'error', error: err });
           setIsRefresh(false);
           setIsSubmit(false);
-          setIsLoading(false);
         });
     }
   }, [isSubmit]);

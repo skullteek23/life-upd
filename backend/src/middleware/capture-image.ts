@@ -1,4 +1,3 @@
-
 import multer from 'multer';
 import { type Request, type Response, type NextFunction } from 'express';
 import { allowedTypes, MAX_INPUT_FILE_SIZE } from '@features/posts/posts.service';
@@ -30,7 +29,6 @@ export function captureImages() {
                 return next();
             }
 
-            console.log(err)
 
             if (err instanceof multer.MulterError) {
                 switch (err.code) {

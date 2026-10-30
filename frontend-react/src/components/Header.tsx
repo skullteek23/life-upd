@@ -9,7 +9,11 @@ import { useSubmitAction } from './context/SubmitAction';
 import { useAuth } from './context/Auth';
 import { useRefreshAction } from './context/refreshAction';
 import Loader from './Loader';
+import Error from './Error';
 import { useLoadingAction } from './context/LoadingAction';
+import { useEffect, useState } from 'react';
+
+type INDICATOR_STATUS = 'normal' | 'error';
 
 function Header() {
   const currentPath = useLocation().pathname;
@@ -17,7 +21,18 @@ function Header() {
   const { isLogged, logout } = useAuth();
   const [_isSubmit, setIsSubmit] = useSubmitAction();
   const [_isRefresh, setIsRefresh] = useRefreshAction();
-  const [isLoading, _setIsLoading] = useLoadingAction();
+  const [loadingStatus, _setIsLoading] = useLoadingAction();
+  const [status, setStatus] = useState<INDICATOR_STATUS>();
+
+  useEffect(() => {
+    if (loadingStatus.status === 'error') {
+      setStatus('error');
+      const timer = resetStatus();
+      return () => clearTimeout(timer);
+    } else {
+      setStatus('normal');
+    }
+  }, [loadingStatus]);
 
   const handleLogout = () => {
     logout();
@@ -25,8 +40,14 @@ function Header() {
     navigate('/');
   };
 
+  const resetStatus = () =>
+    setTimeout(() => {
+      setStatus('normal');
+    }, 3000); // Wait 3 seconds before fading
+
   return (
     <>
+      {loadingStatus.status === 'error' && status === 'error' && <Error err={loadingStatus.error} />}
       <header>
         <Link to="/" className="main-header-title">
           Life Updates
@@ -53,7 +74,7 @@ function Header() {
           </>
         )}
       </header>
-      {isLoading && <Loader></Loader>}
+      {loadingStatus.status === 'loading' && <Loader></Loader>}
     </>
   );
 }

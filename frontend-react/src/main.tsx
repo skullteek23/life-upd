@@ -4,9 +4,8 @@ import { createBrowserRouter, RouterProvider } from 'react-router';
 
 import './styles/index.scss';
 
-import { AuthProvider, TOKEN_KEY } from './components/context/Auth.tsx';
+import { AuthProvider } from './components/context/Auth.tsx';
 import { getPost } from './services/posts.services.ts';
-import { getUserID as getUser } from './services/user.service.ts';
 import App from './App.tsx';
 import Signup from './components/Signup.tsx';
 import Login from './components/Login.tsx';
@@ -15,10 +14,10 @@ import AddPost from './components/AddPost.tsx';
 import EditPost from './components/EditPost.tsx';
 import ProtectedRoutes from './components/ProtectedRoutes.tsx';
 import PublicOnlyRoutes from './components/PublicOnlyRoutes.tsx';
-import SubmitAction from './components/context/SubmitAction.tsx';
-import RefreshAction from './components/context/refreshAction.tsx';
-import BrowserStorage from './utils/storage.ts';
-import LoadingAction from './components/context/LoadingAction.tsx';
+import SubmitProvider from './components/context/SubmitAction.tsx';
+import RefreshProvider from './components/context/refreshAction.tsx';
+import LoadingProvider from './components/context/LoadingAction.tsx';
+import Loader from './components/Loader.tsx';
 
 const router = createBrowserRouter([
   {
@@ -26,12 +25,6 @@ const router = createBrowserRouter([
     children: [
       {
         index: true,
-        loader: async () => {
-          if (BrowserStorage.get(TOKEN_KEY)) {
-            return await getUser();
-          }
-          return true;
-        },
         element: <Feed />,
       },
 
@@ -40,7 +33,12 @@ const router = createBrowserRouter([
         element: <ProtectedRoutes />,
         children: [
           { path: 'add', element: <AddPost /> },
-          { path: 'edit/:id', loader: ({ params }) => getPost(Number(params.id)), element: <EditPost /> },
+          {
+            path: 'edit/:id',
+            loader: ({ params }) => getPost(Number(params.id)),
+            element: <EditPost />,
+            hydrateFallbackElement: <Loader />,
+          },
         ],
       },
 
@@ -59,13 +57,13 @@ const router = createBrowserRouter([
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <AuthProvider>
-      <SubmitAction>
-        <RefreshAction>
-          <LoadingAction>
+      <SubmitProvider>
+        <RefreshProvider>
+          <LoadingProvider>
             <RouterProvider router={router} />
-          </LoadingAction>
-        </RefreshAction>
-      </SubmitAction>
+          </LoadingProvider>
+        </RefreshProvider>
+      </SubmitProvider>
     </AuthProvider>
   </StrictMode>,
 );

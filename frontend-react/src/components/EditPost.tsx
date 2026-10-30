@@ -23,25 +23,25 @@ function EditPost() {
   const navigate = useNavigate();
 
   useEffect(() => {
+    setIsLoading({ status: 'stop' });
     if (!post) {
       navigate('/');
       return;
     }
     if (isSubmit && postData && Object.keys(postData).length && post?.id) {
-      setIsLoading(true);
+      setIsLoading({ status: 'loading' });
       update(validateExistingPost(postData), post?.id)
         .then((result) => {
           if (result) {
             navigate('/');
             setIsRefresh(true);
             setIsSubmit(false);
-            setIsLoading(false);
           }
         })
-        .catch((_err) => {
+        .catch((err) => {
+          setIsLoading({ status: 'error', error: err });
           setIsRefresh(false);
           setIsSubmit(false);
-          setIsLoading(false);
         });
     }
   }, [isSubmit]);
@@ -50,7 +50,7 @@ function EditPost() {
     setPostData({ ...postData, ...value });
   };
 
-  return <PostForm data={postData} changeData={handlePostData} />;
+  return <>{post && <PostForm data={postData} changeData={handlePostData} />}</>;
 }
 
 export default EditPost;

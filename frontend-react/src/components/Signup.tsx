@@ -21,7 +21,7 @@ function Signup() {
   }, [isSubmit]);
 
   const handleSubmit = () => {
-    setIsLoading(true);
+    setIsLoading({ status: 'loading' });
     const username = String(usernameRef?.current?.value)?.trim();
     const password = String(passwordRef?.current?.value)?.trim();
     signup(username, password)
@@ -29,11 +29,10 @@ function Signup() {
         if (token) {
           navigate('/');
           updateLoginState(token);
-          setIsLoading(false);
         }
       })
-      .catch(() => {
-        setIsLoading(false);
+      .catch((err) => {
+        setIsLoading({ status: 'error', error: err });
       });
   };
   return (

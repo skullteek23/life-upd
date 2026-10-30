@@ -38,7 +38,6 @@ export const AUTH_ERRORS = {
     duplicateCheckFailed: 'Unable to check user duplicate',
     keyNotProvided: 'Token key not provided in environment',
     tokenNotProvided: 'Token key not provided in request'
-
 }
 
 export const USER_ERRORS = {

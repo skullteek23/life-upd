@@ -7,6 +7,10 @@ import { getPosts } from '../services/posts.services';
 import type { Post as PostType } from '../models/post';
 import { useRefreshAction } from './context/refreshAction';
 import { useLoadingAction } from './context/LoadingAction';
+import BrowserStorage from '../utils/storage';
+import { TOKEN_KEY } from './context/Auth';
+import { getUser } from '../services/user.service';
+import type { User } from '../models/user';
 
 function Feed() {
   const [feed, setFeed] = useState<PostType[]>([]);
@@ -14,13 +18,23 @@ function Feed() {
   const [categoryFilter, setCategoryFilter] = useState<string>('');
   const [isRefresh, _setIsRefresh] = useRefreshAction();
   const [_isLoading, setIsLoading] = useLoadingAction();
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
-    setIsLoading(true);
-    getPosts(dateFilter, categoryFilter).then((response: PostType[]) => {
-      setFeed([...(response || [])]);
-      setIsLoading(false);
-    });
+    setIsLoading({ status: 'loading' });
+    getPosts(dateFilter, categoryFilter)
+      .then((response: PostType[]) => {
+        setFeed([...(response || [])]);
+        setIsLoading({ status: 'stop' });
+      })
+      .catch((err) => {
+        setIsLoading({ status: 'error', error: err });
+      });
+    if (BrowserStorage.get(TOKEN_KEY)) {
+      getUser().then((resp) => {
+        setUser(resp);
+      });
+    }
   }, [dateFilter, categoryFilter, isRefresh]);
 
   const DATE_FILTERS = FILTERS_MAP.get('date');
@@ -33,7 +47,7 @@ function Feed() {
       <ul id="posts">
         {feed.map((item) => (
           <li key={item.id}>
-            <Post data={item}></Post>
+            <Post data={item} currentUser={user}></Post>
           </li>
         ))}
       </ul>
