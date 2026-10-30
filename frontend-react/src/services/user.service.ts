@@ -16,5 +16,5 @@ export async function getUser(): Promise<User | null> {
 
 function get(): Promise<User> {
     return ApiCore.get('/users/describe-user')
-        .catch(err => console.log(err));
+        .catch(err => { console.log(err.message); return null; });
 }

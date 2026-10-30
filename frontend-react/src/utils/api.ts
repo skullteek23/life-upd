@@ -82,6 +82,10 @@ class ApiCore {
     }
 
     static async handleError(res: Response) {
+        if (res.status === 404) {
+            throw new Error('Something went wrong');
+        };
+
         const data = await res.json();
 
         if (!res.ok) {
