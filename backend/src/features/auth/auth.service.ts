@@ -40,11 +40,12 @@ export async function loginWithUsername(loginData: ILoginData): Promise<string> 
     let queryResult;
     try {
         queryResult = await findUserByUsername(username);
-        if (queryResult?.rows.length !== 1) {
-            throw new Error(AUTH_ERRORS.userNotExist);
-        }
     } catch (error: any) {
         throw new Error(error.message);
+    }
+
+    if (queryResult?.rows.length !== 1) {
+        throw new Error(AUTH_ERRORS.userNotExist);
     }
 
     const user: IUser = queryResult?.rows[0];
