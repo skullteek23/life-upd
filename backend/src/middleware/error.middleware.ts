@@ -1,5 +1,7 @@
 import { type Request, type Response, type NextFunction } from 'express';
 import { AUTH_ERRORS, HEIC_ERRORS, MULTER_ERRORS, POST_ERRORS, USER_ERRORS } from '@utils/constants';
+import { REFRESH_TOKEN_COOKIE_KEY } from '@features/auth/auth.service';
+import { getCookieOptions } from '@features/auth/auth.controller';
 
 export function handleAuthError() {
     return (err: any, req: Request, res: Response, next: NextFunction) => {
@@ -12,17 +14,22 @@ export function handleAuthError() {
             case AUTH_ERRORS.badFormat:
                 return res.status(400).json({ error: 'Username/Password not valid' });
             case AUTH_ERRORS.invalidCredentials:
-                return res.status(401).json({ error: 'Username/Password not valid' });
+                return res.status(400).json({ error: 'Username/Password not valid' });
             case AUTH_ERRORS.userNotExist:
-                return res.status(401).json({ error: `User doesn't exist` });
+                return res.status(400).json({ error: `User doesn't exist` });
             case AUTH_ERRORS.passwordIncorrect:
-                return res.status(401).json({ error: 'Username/Password not correct' });
+                return res.status(400).json({ error: 'Username/Password not correct' });
+            case AUTH_ERRORS.tokenNotProvided:
+                return res.status(400).json({ error: 'Authentication Failed! Try again later' });
             case AUTH_ERRORS.usernameDuplicate:
                 return res.status(409).json({ error: 'User already exists' });
             case AUTH_ERRORS.tokenFailure:
                 return res.status(500).json({ error: 'Authentication Failed! Try again later' });
+            case AUTH_ERRORS.tokenExpired:
+                return res.status(412).json({ error: 'Token is expired' });
             case AUTH_ERRORS.unauthorizedAccess:
-                return res.status(401).json({ error: 'Action not allowed' });
+                res.clearCookie(REFRESH_TOKEN_COOKIE_KEY, getCookieOptions());
+                return res.status(401).json({ error: 'Access not allowed' });
             case AUTH_ERRORS.signupServerFailure:
                 return res.status(500).json({ error: 'Authentication Failed! Try again later' });
             case AUTH_ERRORS.loginFailure:

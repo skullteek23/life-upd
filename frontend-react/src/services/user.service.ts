@@ -1,6 +1,6 @@
 import { USER_KEY } from "../components/context/Auth";
 import type { User } from "../models/user";
-import ApiCore from "../utils/api";
+import { ApiCore } from "../utils/api";
 import BrowserStorage from "../utils/storage";
 
 export async function getUser(): Promise<User | null> {

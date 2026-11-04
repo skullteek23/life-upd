@@ -37,7 +37,8 @@ export const AUTH_ERRORS = {
     usernameDuplicate: 'User already exists',
     duplicateCheckFailed: 'Unable to check user duplicate',
     keyNotProvided: 'Token key not provided in environment',
-    tokenNotProvided: 'Token key not provided in request'
+    tokenNotProvided: 'Token key not provided in request',
+    tokenExpired: 'Access Token is expired',
 }
 
 export const USER_ERRORS = {

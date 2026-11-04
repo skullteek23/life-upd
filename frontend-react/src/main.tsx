@@ -21,7 +21,17 @@ import Loader from './components/Loader.tsx';
 
 const router = createBrowserRouter([
   {
-    element: <App />,
+    element: (
+      <AuthProvider>
+        <SubmitProvider>
+          <RefreshProvider>
+            <LoadingProvider>
+              <App />
+            </LoadingProvider>
+          </RefreshProvider>
+        </SubmitProvider>
+      </AuthProvider>
+    ),
     children: [
       {
         index: true,
@@ -55,15 +65,7 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <AuthProvider>
-      <SubmitProvider>
-        <RefreshProvider>
-          <LoadingProvider>
-            <RouterProvider router={router} />
-          </LoadingProvider>
-        </RefreshProvider>
-      </SubmitProvider>
-    </AuthProvider>
-  </StrictMode>,
+  // <StrictMode>
+  <RouterProvider router={router} />,
+  // </StrictMode>,
 );

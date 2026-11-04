@@ -1,4 +1,4 @@
-import ApiCore from "../utils/api";
+import { ApiCore } from "../utils/api";
 import { Category, NewPostPayload, type Post as PostType, type PostUpdatePayload } from '../models/post';
 
 export function getPosts(dateFilter: string, categoryFilter: string): Promise<PostType[]> {

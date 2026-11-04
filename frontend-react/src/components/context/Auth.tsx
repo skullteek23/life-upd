@@ -1,5 +1,8 @@
-import { createContext, useContext, useState } from 'react';
+import { createContext, useContext, useEffect, useState } from 'react';
 import BrowserStorage from '../../utils/storage';
+import { logout as logOut } from '../../services/auth.service';
+import { useNavigate } from 'react-router';
+import { assignUnauthorizedCallback } from '../../utils/api';
 
 export const TOKEN_KEY = 'token';
 export const USER_KEY = 'user';
@@ -14,15 +17,22 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isLogged, setIsLogged] = useState(() => Boolean(BrowserStorage.get(TOKEN_KEY)));
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    assignUnauthorizedCallback(logout);
+  }, []);
 
   const login = (token: string) => {
     setIsLogged(true);
     BrowserStorage.save(TOKEN_KEY, token);
   };
-  const logout = () => {
+  const logout = async () => {
     setIsLogged(false);
     BrowserStorage.remove(TOKEN_KEY);
     BrowserStorage.remove(USER_KEY);
+    navigate('/login');
+    logOut();
   };
 
   return <AuthContext.Provider value={{ isLogged, login, logout }}>{children}</AuthContext.Provider>;
