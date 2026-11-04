@@ -47,12 +47,12 @@ class AuthJWT {
         switch (type) {
             case 'access':
                 return {
-                    expiresIn: '1m',
+                    expiresIn: '30m',
                     ...opts
                 }
             case 'refresh':
                 return {
-                    expiresIn: '5m',
+                    expiresIn: '1d',
                     ...opts
                 }
         };
