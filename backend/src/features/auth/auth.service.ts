@@ -1,11 +1,13 @@
-import { getToken } from "../../utils/jwt";
+import AuthToken from "@utils/jwt";
 import { compare, toHash } from "../../utils/password";
 import { addUser, findUserByUsername } from "../users/users.repository";
 import { IUser } from "../users/users.type";
-import { ILoginData } from "./auth.type";
+import { ILoginData, ITokenResult, RefreshTokenPayload } from "./auth.type";
 import { AUTH_ERRORS } from '@utils/constants';
 
-export async function signupWithUsername(loginData: ILoginData): Promise<string> {
+export const REFRESH_TOKEN_COOKIE_KEY = 'refreshToken';
+
+export async function signupWithUsername(loginData: ILoginData): Promise<ITokenResult> {
     const { username, password } = loginData;
 
     if (!isUsernameValid(username) || !isPasswordValid(password)) {
@@ -26,11 +28,12 @@ export async function signupWithUsername(loginData: ILoginData): Promise<string>
         throw new Error(AUTH_ERRORS.signupServerFailure);
     }
 
-    const token = getToken(userID);
-    return token;
+    const accessToken = AuthToken.get({ userID }, 'access');
+    const refreshToken = AuthToken.get({ userID }, 'refresh');
+    return { accessToken, refreshToken };
 }
 
-export async function loginWithUsername(loginData: ILoginData): Promise<string> {
+export async function loginWithUsername(loginData: ILoginData): Promise<ITokenResult> {
     const { username, password } = loginData;
 
     if (!isUsernameValid(username) || !isPasswordValid(password)) {
@@ -40,11 +43,12 @@ export async function loginWithUsername(loginData: ILoginData): Promise<string> 
     let queryResult;
     try {
         queryResult = await findUserByUsername(username);
-        if (queryResult?.rows.length !== 1) {
-            throw new Error(AUTH_ERRORS.userNotExist);
-        }
     } catch (error: any) {
         throw new Error(error.message);
+    }
+
+    if (queryResult?.rows.length !== 1) {
+        throw new Error(AUTH_ERRORS.userNotExist);
     }
 
     const user: IUser = queryResult?.rows[0];
@@ -53,8 +57,20 @@ export async function loginWithUsername(loginData: ILoginData): Promise<string> 
         throw new Error(AUTH_ERRORS.passwordIncorrect);
     }
 
-    const token = getToken(user.id);
-    return token;
+    const accessToken = AuthToken.get({ userID: user.id }, 'access');
+    const refreshToken = AuthToken.get({ userID: user.id }, 'refresh');
+    return { accessToken, refreshToken };
+}
+
+export function validateTokens(token: string): ITokenResult {
+    const payload = AuthToken.verify(token, 'refresh');
+    const newPayload = { userID: (payload as RefreshTokenPayload)?.userID };
+    if (payload) {
+        const newAccessToken = AuthToken.get(newPayload, 'access');
+        const newRefreshToken = AuthToken.get(newPayload, 'refresh');
+        return { accessToken: newAccessToken, refreshToken: newRefreshToken }
+    }
+    throw new Error(AUTH_ERRORS.unauthorizedAccess);
 }
 
 function isUsernameValid(value: string): boolean {

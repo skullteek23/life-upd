@@ -1,4 +1,3 @@
-
 import multer from 'multer';
 import { type Request, type Response, type NextFunction } from 'express';
 import { allowedTypes, MAX_INPUT_FILE_SIZE } from '@features/posts/posts.service';
@@ -12,6 +11,8 @@ const capture = multer({
     },
     fileFilter: (req, file, cb) => {
         if (allowedTypes.includes(file.mimetype)) {
+            cb(null, true);
+        } else if (!file) {
             cb(null, true);
         } else {
             cb(new Error(MULTER_ERRORS.imageNotSupport));
@@ -27,6 +28,7 @@ export function captureImages() {
             if (!err) {
                 return next();
             }
+
 
             if (err instanceof multer.MulterError) {
                 switch (err.code) {

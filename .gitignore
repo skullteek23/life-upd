@@ -10,3 +10,4 @@ backend/dist/*
 # Global Files
 settings.json
 **/.DS_Store
+data/*

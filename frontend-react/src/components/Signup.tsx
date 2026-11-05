@@ -1,12 +1,13 @@
 import { useEffect, useRef } from 'react';
-import { Link, useNavigate, useOutletContext } from 'react-router';
+import { Link, useNavigate } from 'react-router';
 import { signup } from '../services/auth.service';
-import { useAuth } from './Auth';
-import type { ActionOutletContext } from '../utils/actions';
+import { useAuth } from './context/Auth';
+import { useSubmitAction } from './context/SubmitAction';
+import { useLoadingAction } from './context/LoadingAction';
 
 function Signup() {
-  const { submission } = useOutletContext<ActionOutletContext>();
-  const [isSubmit, setIsSubmit] = submission;
+  const [isSubmit, setIsSubmit] = useSubmitAction();
+  const [_isLoading, setIsLoading] = useLoadingAction();
   const usernameRef = useRef<HTMLInputElement>(null);
   const passwordRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
@@ -20,14 +21,19 @@ function Signup() {
   }, [isSubmit]);
 
   const handleSubmit = () => {
+    setIsLoading({ status: 'loading' });
     const username = String(usernameRef?.current?.value)?.trim();
     const password = String(passwordRef?.current?.value)?.trim();
-    signup(username, password).then((token) => {
-      if (token) {
-        navigate('/');
-        updateLoginState(token);
-      }
-    });
+    signup(username, password)
+      .then((token) => {
+        if (token) {
+          navigate('/');
+          updateLoginState(token);
+        }
+      })
+      .catch((err) => {
+        setIsLoading({ status: 'error', error: err });
+      });
   };
   return (
     <section className="feed">
